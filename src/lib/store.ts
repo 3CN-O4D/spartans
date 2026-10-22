@@ -1,4 +1,5 @@
-import { defaultContent, type Content } from "@/lib/data";
+import seedJson from "../../data/content.json";
+import type { Content } from "@/lib/data";
 import { defaultLineup } from "@/lib/formations";
 import {
   privateStorageConfigured,
@@ -9,18 +10,26 @@ import {
 
 const CONTENT_PATH = "data/content.json";
 
+/**
+ * The checked-in content is the deployment seed. It is imported statically so
+ * Vercel bundles it with the server function: an empty private Blob store then
+ * starts with the real site content (including galleries and news), not the
+ * small sample content used by the component defaults.
+ */
+const seedContent = seedJson as unknown as Content;
+
 function merge(saved: Partial<Content>): Content {
-  const players = saved.players ?? defaultContent.players;
-  const settings = { ...defaultContent.settings, ...saved.settings };
+  const players = saved.players ?? seedContent.players;
+  const settings = { ...seedContent.settings, ...saved.settings };
   return {
-    club: { ...defaultContent.club, ...saved.club },
+    club: { ...seedContent.club, ...saved.club },
     players,
-    fixtures: saved.fixtures ?? defaultContent.fixtures,
-    leagueTable: saved.leagueTable ?? defaultContent.leagueTable,
-    articles: saved.articles ?? defaultContent.articles,
-    gallery: saved.gallery ?? defaultContent.gallery,
+    fixtures: saved.fixtures ?? seedContent.fixtures,
+    leagueTable: saved.leagueTable ?? seedContent.leagueTable,
+    articles: saved.articles ?? seedContent.articles,
+    gallery: saved.gallery ?? seedContent.gallery,
     settings,
-    info: saved.info ?? defaultContent.info,
+    info: saved.info ?? seedContent.info,
     lineup: saved.lineup ?? defaultLineup(players, settings.defaultFormation),
   };
 }
@@ -34,15 +43,16 @@ export async function readContent(): Promise<Content> {
       "[store] Could not read content:",
       error instanceof Error ? error.message : error,
     );
-    return defaultContent;
+    return seedContent;
   }
 
   if (raw === null) {
-    // Seed defaults only when there is somewhere durable to write them. On a
-    // misconfigured Vercel deployment, keep serving the bundled defaults.
+    // Seed the checked-in content only when there is somewhere durable to
+    // write it. On a misconfigured Vercel deployment, keep serving the
+    // bundled seed so the public site still works.
     if (privateStorageConfigured() || !runningOnVercel()) {
       try {
-        await writeContent(defaultContent);
+        await writeContent(seedContent);
       } catch (error) {
         console.warn(
           "[store] Could not seed content:",
@@ -50,14 +60,14 @@ export async function readContent(): Promise<Content> {
         );
       }
     }
-    return defaultContent;
+    return seedContent;
   }
 
   try {
     return merge(JSON.parse(raw) as Partial<Content>);
   } catch {
     // Keep the corrupt source for recovery instead of clobbering it.
-    return defaultContent;
+    return seedContent;
   }
 }
 
