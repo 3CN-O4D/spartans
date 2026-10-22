@@ -57,13 +57,30 @@ export async function syncSocials(options: {
   force?: boolean;
   dryRun?: boolean;
   source?: "all" | "instagram" | "tiktok";
+  clearLocks?: boolean;
 }): Promise<SocialSyncResult> {
+  if (options.clearLocks) {
+    await Promise.all([
+      deleteObject(LOCK_PATH).catch(() => undefined),
+      deleteObject("data/instagram-sync.lock").catch(() => undefined),
+      deleteObject("data/tiktok-sync.lock").catch(() => undefined),
+    ]);
+  }
+
   let release: (() => Promise<void>) | null = null;
   try {
     release = await acquireLock();
   } catch (error) {
     const message = error instanceof Error ? error.message : "sync already running";
-    return { ok: true, skipped: true, reason: message.toLowerCase() };
+    if (message.toLowerCase().includes("already running")) {
+      return {
+        ok: true,
+        skipped: true,
+        reason: "sync already running",
+        error: "A sync is already in progress. Use clearLocks=1 to clear a stale lock.",
+      };
+    }
+    return { ok: false, error: message };
   }
 
   try {

@@ -59,7 +59,12 @@ export async function PUT(req: Request) {
   try {
     await writeContent(body);
     return NextResponse.json({ ok: true });
-  } catch {
-    return NextResponse.json({ error: "Failed to save content" }, { status: 500 });
+  } catch (error) {
+    const detail = error instanceof Error ? error.message : "Unknown storage error";
+    console.error("[content] Save failed:", error);
+    return NextResponse.json(
+      { error: `Failed to save content: ${detail}` },
+      { status: 500 },
+    );
   }
 }

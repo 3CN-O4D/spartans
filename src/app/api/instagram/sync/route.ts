@@ -54,7 +54,8 @@ async function handle(req: Request) {
   const sourceParam = url.searchParams.get("source");
   const source =
     sourceParam === "instagram" || sourceParam === "tiktok" ? sourceParam : "all";
-  const result = await syncSocials({ mode, dryRun, force, source });
+  const clearLocks = !auth.publicAuto && url.searchParams.get("clearLocks") === "1";
+  const result = await syncSocials({ mode, dryRun, force, source, clearLocks });
 
   return NextResponse.json(result, {
     status: result.ok ? 200 : 500,
