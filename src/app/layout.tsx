@@ -3,6 +3,7 @@ import "./globals.css";
 import { readContent } from "@/lib/store";
 import type { Club } from "@/lib/data";
 import { siteUrl } from "@/lib/site";
+import { Analytics } from "@vercel/analytics/next";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -71,6 +72,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Skip to content
         </a>
         {children}
+        <Analytics />
       </body>
     </html>
   );
