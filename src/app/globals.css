@@ -1,0 +1,156 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-display: "Arial Black", "Helvetica Neue", Impact, system-ui, sans-serif;
+  --font-sans: "Inter", "Segoe UI", Roboto, Helvetica, Arial, system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-spartan-ink text-white antialiased;
+  font-family: var(--font-sans);
+}
+
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+
+.section {
+  @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+}
+
+.btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-sm px-5 py-3 text-sm font-bold uppercase tracking-wide transition;
+}
+
+.btn-primary {
+  @apply btn bg-spartan-red text-white hover:bg-spartan-darkred;
+}
+
+.btn-ghost {
+  @apply btn border border-white/30 text-white hover:border-white hover:bg-white/10;
+}
+
+.eyebrow {
+  @apply text-xs font-bold uppercase tracking-[0.2em] text-spartan-gold;
+}
+
+.card {
+  @apply overflow-hidden rounded-sm border border-white/10 bg-spartan-steel;
+}
+
+.crest-mask {
+  filter: drop-shadow(0 6px 20px rgba(0, 0, 0, 0.45));
+}
+
+.gallery-dialog {
+  margin: auto;
+}
+
+.gallery-dialog::backdrop {
+  background: rgba(5, 5, 7, 0.82);
+  backdrop-filter: blur(4px);
+}
+
+::selection {
+  background: #c8102e;
+  color: #fff;
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.animate-pop {
+  animation: popIn 0.55s cubic-bezier(0.18, 0.9, 0.28, 1.2) both;
+}
+
+@keyframes floaty {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+.animate-floaty {
+  animation: floaty 3.6s ease-in-out infinite;
+}
+
+@keyframes pulseRing {
+  0% {
+    box-shadow: 0 0 0 0 rgba(242, 193, 78, 0.6);
+  }
+  70% {
+    box-shadow: 0 0 0 14px rgba(242, 193, 78, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(242, 193, 78, 0);
+  }
+}
+.animate-ring {
+  animation: pulseRing 1.6s infinite;
+}
+
+@keyframes barGrow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+.animate-bar {
+  transform-origin: left;
+  animation: barGrow 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.pitch-stripes {
+  background-image: repeating-linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.05) 0px,
+    rgba(255, 255, 255, 0.05) 8%,
+    rgba(0, 0, 0, 0.06) 8%,
+    rgba(0, 0, 0, 0.06) 16%
+  );
+}
+
+/* Keyboard focus is always visible, even on dark surfaces. */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid #f2c14e;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Anchor links land below the sticky header. */
+[id] {
+  scroll-margin-top: 6rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+

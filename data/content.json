@@ -1,0 +1,860 @@
+{
+  "club": {
+    "name": "Spartans FC",
+    "nickname": "Spartans",
+    "founded": 2026,
+    "town": "Eldoret",
+    "county": "Uasin Gishu",
+    "country": "Kenya",
+    "ground": "Eldoret Premier School, Eldoret",
+    "phone": "+254 720874395",
+    "phones": [
+      "0720874395",
+      "0722469659",
+      "0723802791"
+    ],
+    "email": "spartanssocceracademy@gmail.com",
+    "motto": "One Team, One Dream, One  Family",
+    "slogan": "Building Skills. Building Character. Building Champions.",
+    "ageGroup": "Under 7 – Under 15",
+    "logo": "/brand/spartans-crest.png",
+    "facebook": "Spartans Soccer Academy",
+    "instagram": "@spartanssocceracademy",
+    "tiktok": "@spartanssocceraca"
+  },
+  "players": [
+    {
+      "id": "brian-onyango",
+      "name": "Brian Onyango",
+      "position": "Goalkeeper",
+      "squadNo": 1,
+      "jerseyNo": 1,
+      "age": 16,
+      "hometown": "Langas, Eldoret",
+      "initials": "BO",
+      "bio": "Commanding shot-stopper and vice captain, known for organising the back line well beyond his years."
+    },
+    {
+      "id": "faith-chebet",
+      "name": "Faith Chebet",
+      "position": "Goalkeeper",
+      "squadNo": 2,
+      "jerseyNo": 13,
+      "age": 14,
+      "hometown": "Kapsabet",
+      "initials": "FC",
+      "bio": "Agile keeper who leads the Under-15 side's press-free build-up play from the back."
+    },
+    {
+      "id": "mark-kiptoo",
+      "name": "Mark Kiptoo",
+      "position": "Goalkeeper",
+      "squadNo": 3,
+      "jerseyNo": 30,
+      "age": 15,
+      "hometown": "Kapsabet",
+      "initials": "MK",
+      "bio": "Tall, brave keeper who thrives in one-on-one situations."
+    },
+    {
+      "id": "kevin-kimutai",
+      "name": "Kevin Kimutai",
+      "position": "Defender",
+      "squadNo": 4,
+      "jerseyNo": 2,
+      "age": 15,
+      "hometown": "Kimumu, Eldoret",
+      "initials": "KK",
+      "bio": "Right back with relentless energy and an eye for the overlap."
+    },
+    {
+      "id": "mercy-jepkosgei",
+      "name": "Mercy Jepkosgei",
+      "position": "Defender",
+      "squadNo": 5,
+      "jerseyNo": 5,
+      "age": 16,
+      "hometown": "Kapsoya",
+      "initials": "MJ",
+      "bio": "Composed centre back and the club captain for the Under-17 girls."
+    },
+    {
+      "id": "sospeter-otieno",
+      "name": "Sospeter Otieno",
+      "position": "Defender",
+      "squadNo": 6,
+      "jerseyNo": 4,
+      "age": 15,
+      "hometown": "Elgon View",
+      "initials": "SO",
+      "bio": "Reads the game early and steps out of defence to start attacks."
+    },
+    {
+      "id": "joseph-malel",
+      "name": "Joseph Malel",
+      "position": "Defender",
+      "squadNo": 7,
+      "jerseyNo": 3,
+      "age": 15,
+      "hometown": "Ngeria",
+      "initials": "JM",
+      "bio": "Aggressive left back who never stops running the flank."
+    },
+    {
+      "id": "sarah-nekesa",
+      "name": "Sarah Nekesa",
+      "position": "Defender",
+      "squadNo": 8,
+      "jerseyNo": 15,
+      "age": 14,
+      "hometown": "Langas, Eldoret",
+      "initials": "SN",
+      "bio": "Quick, tenacious full back and a natural leader on the pitch."
+    },
+    {
+      "id": "elvis-wanyonyi",
+      "name": "Elvis Wanyonyi",
+      "position": "Defender",
+      "squadNo": 9,
+      "jerseyNo": 22,
+      "age": 16,
+      "hometown": "Kimumu, Eldoret",
+      "initials": "EW",
+      "bio": "Aerially dominant centre back with a powerful recovery pace."
+    },
+    {
+      "id": "amina-hassan",
+      "name": "Amina Hassan",
+      "position": "Midfielder",
+      "squadNo": 10,
+      "jerseyNo": 8,
+      "age": 14,
+      "hometown": "Langas, Eldoret",
+      "initials": "AH",
+      "bio": "Tireless box-to-box midfielder who sets the tempo in the centre of the park."
+    },
+    {
+      "id": "dennis-mwangi",
+      "name": "Dennis Mwangi",
+      "position": "Midfielder",
+      "squadNo": 11,
+      "jerseyNo": 10,
+      "age": 16,
+      "hometown": "Ngeria",
+      "initials": "DM",
+      "bio": "Creative playmaker and set-piece specialist the crowd loves to watch."
+    },
+    {
+      "id": "gladys-wanjiru",
+      "name": "Gladys Wanjiru",
+      "position": "Midfielder",
+      "squadNo": 12,
+      "jerseyNo": 6,
+      "age": 15,
+      "hometown": "Kapsabet",
+      "initials": "GW",
+      "bio": "Deep-lying metronome with a knack for the forward pass."
+    },
+    {
+      "id": "tony-kipruto",
+      "name": "Tony Kipruto",
+      "position": "Midfielder",
+      "squadNo": 13,
+      "jerseyNo": 16,
+      "age": 15,
+      "hometown": "Kapsoya",
+      "initials": "TK",
+      "bio": "Silky winger-turned-midfielder with close control in tight spaces."
+    },
+    {
+      "id": "brenda-nasimiyu",
+      "name": "Brenda Nasimiyu",
+      "position": "Midfielder",
+      "squadNo": 14,
+      "jerseyNo": 18,
+      "age": 14,
+      "hometown": "Elgon View",
+      "initials": "BN",
+      "bio": "Creative number ten who links midfield and attack beautifully."
+    },
+    {
+      "id": "felix-ouma",
+      "name": "Felix Ouma",
+      "position": "Midfielder",
+      "squadNo": 15,
+      "jerseyNo": 20,
+      "age": 16,
+      "hometown": "Ngeria",
+      "initials": "FO",
+      "bio": "Energetic engine room player with a fierce long-range strike."
+    },
+    {
+      "id": "collins-kiprop",
+      "name": "Collins Kiprop",
+      "position": "Forward",
+      "squadNo": 16,
+      "jerseyNo": 9,
+      "age": 16,
+      "hometown": "Kimumu, Eldoret",
+      "initials": "CK",
+      "bio": "Leading scorer for two seasons running and the club's top prospect."
+    },
+    {
+      "id": "linet-achieng",
+      "name": "Linet Achieng",
+      "position": "Forward",
+      "squadNo": 17,
+      "jerseyNo": 11,
+      "age": 14,
+      "hometown": "Elgon View",
+      "initials": "LA",
+      "bio": "Fearless winger who loves to run at defenders and cut inside."
+    },
+    {
+      "id": "peter-barasa",
+      "name": "Peter Barasa",
+      "position": "Forward",
+      "squadNo": 18,
+      "jerseyNo": 7,
+      "age": 15,
+      "hometown": "Kapsoya",
+      "initials": "PB",
+      "bio": "Pacey forward with a calm finish and endless work rate off the ball."
+    },
+    {
+      "id": "nessa-juma",
+      "name": "Nessa Juma",
+      "position": "Forward",
+      "squadNo": 19,
+      "jerseyNo": 14,
+      "age": 13,
+      "hometown": "Ngeria",
+      "initials": "NJ",
+      "bio": "Youngest in the first squad, already tipped for the county select team."
+    },
+    {
+      "id": "sharon-chelimo",
+      "name": "Sharon Chelimo",
+      "position": "Forward",
+      "squadNo": 20,
+      "jerseyNo": 19,
+      "age": 15,
+      "hometown": "Kapsabet",
+      "initials": "SC",
+      "bio": "Predatory finisher who arrives in the box at exactly the right time."
+    }
+  ],
+  "fixtures": [
+    {
+      "id": "f1",
+      "competition": "Uasin Gishu Youth League",
+      "opponent": "Rift Rangers Academy",
+      "opponentInfo": "Strong academy side from the Rift Valley circuit.",
+      "date": "2026-10-24",
+      "time": "14:00",
+      "venue": "Home",
+      "ground": "Spartans Arena, Eldoret",
+      "status": "upcoming"
+    },
+    {
+      "id": "f2",
+      "competition": "County Youth Cup",
+      "opponent": "Cheptiret Stars",
+      "opponentInfo": "Cup specialists with a lively away support.",
+      "date": "2026-10-31",
+      "time": "11:00",
+      "venue": "Away",
+      "ground": "Cheptiret Grounds",
+      "status": "upcoming"
+    },
+    {
+      "id": "f3",
+      "competition": "Uasin Gishu Youth League",
+      "opponent": "Kapsoya United Kids",
+      "opponentInfo": "Current league leaders.",
+      "date": "2026-11-07",
+      "time": "15:30",
+      "venue": "Home",
+      "ground": "Spartans Arena, Eldoret",
+      "status": "upcoming"
+    },
+    {
+      "id": "f4",
+      "competition": "Friendly",
+      "opponent": "Elgon View Cubs",
+      "opponentInfo": "Neighbourly friendly fixture.",
+      "date": "2026-10-12",
+      "time": "13:00",
+      "venue": "Home",
+      "ground": "Spartans Arena, Eldoret",
+      "status": "result",
+      "scoreFor": 4,
+      "scoreAgainst": 1
+    },
+    {
+      "id": "f5",
+      "competition": "Uasin Gishu Youth League",
+      "opponent": "Kimumu Warriors",
+      "date": "2026-10-05",
+      "time": "14:00",
+      "venue": "Away",
+      "ground": "Kimumu Primary",
+      "status": "result",
+      "scoreFor": 2,
+      "scoreAgainst": 2
+    },
+    {
+      "id": "f6",
+      "competition": "County Youth Cup",
+      "opponent": "Ngeria Stars",
+      "date": "2026-09-28",
+      "time": "10:30",
+      "venue": "Home",
+      "ground": "Spartans Arena, Eldoret",
+      "status": "result",
+      "scoreFor": 3,
+      "scoreAgainst": 0
+    }
+  ],
+  "leagueTable": [
+    {
+      "pos": 1,
+      "team": "Kapsoya United Kids",
+      "played": 9,
+      "won": 8,
+      "drawn": 0,
+      "lost": 1,
+      "gd": 19,
+      "points": 24
+    },
+    {
+      "pos": 2,
+      "team": "Spartans FC",
+      "played": 9,
+      "won": 7,
+      "drawn": 1,
+      "lost": 1,
+      "gd": 16,
+      "points": 22
+    },
+    {
+      "pos": 3,
+      "team": "Rift Rangers Academy",
+      "played": 9,
+      "won": 6,
+      "drawn": 1,
+      "lost": 2,
+      "gd": 11,
+      "points": 19
+    },
+    {
+      "pos": 4,
+      "team": "Cheptiret Stars",
+      "played": 9,
+      "won": 4,
+      "drawn": 3,
+      "lost": 2,
+      "gd": 5,
+      "points": 15
+    },
+    {
+      "pos": 5,
+      "team": "Kimumu Warriors",
+      "played": 9,
+      "won": 3,
+      "drawn": 3,
+      "lost": 3,
+      "gd": 1,
+      "points": 12
+    },
+    {
+      "pos": 6,
+      "team": "Ngeria Stars",
+      "played": 9,
+      "won": 2,
+      "drawn": 2,
+      "lost": 5,
+      "gd": -7,
+      "points": 8
+    },
+    {
+      "pos": 7,
+      "team": "Elgon View Cubs",
+      "played": 9,
+      "won": 1,
+      "drawn": 2,
+      "lost": 6,
+      "gd": -14,
+      "points": 5
+    },
+    {
+      "pos": 8,
+      "team": "Kapsabet Juniors",
+      "played": 9,
+      "won": 0,
+      "drawn": 2,
+      "lost": 7,
+      "gd": -31,
+      "points": 2
+    }
+  ],
+  "articles": [
+    {
+      "slug": "the-arusha-feat-spartans-take-on-the-chipkizi-cup",
+      "title": "The Arusha feat: Spartans take on the Chipkizi Cup",
+      "category": "Club News",
+      "date": "2026-10-20",
+      "readMins": 3,
+      "author": "Club Media",
+      "excerpt": "Spartans Soccer Academy is preparing for the 17th Chipkizi Cup in Arusha, Tanzania — five days of football against some of East Africa's best young teams.",
+      "body": [
+        "Spartans Soccer Academy is set for one of the biggest adventures in its young history: the 17th edition of the Chipkizi Cup in Arusha, Tanzania, from 7 to 13 December 2026.",
+        "The five-day tournament brings together youth teams from across East Africa. For the Spartans players, it is a chance to test themselves against new opposition, experience a different football culture and grow together as a group.",
+        "The trip is priced at Ksh 42,500 per player and covers transport, accommodation, meals and the tournament fee. A separate Ksh 12,000 contribution applies for a parent travelling with the squad.",
+        "Every travelling player will need a valid passport and a yellow fever certificate. The club will share the full travel checklist and departure details with families as the trip takes shape.",
+        "Families who want more information can contact the academy on +254 720874395. This is more than a tournament — it is another step in building brave players, strong character and a Spartans family that travels together."
+      ],
+      "coverImage": "/gallery/spartans-arusha-cup.jpg"
+    },
+    {
+      "slug": "spartans-storm-into-county-cup-semis",
+      "title": "Spartans storm into County Youth Cup semi-finals",
+      "category": "Match Report",
+      "date": "2026-10-13",
+      "readMins": 3,
+      "author": "Club Media",
+      "excerpt": "A dominant second-half display saw the Under-15s book their place in the last four with a comfortable home win.",
+      "body": [
+        "Spartans FC produced their most complete performance of the season on Saturday, easing past Elgon View Cubs to reach the semi-finals of the County Youth Cup.",
+        "After a cagey opening, the deadlock was broken from a well-worked corner routine, and from there the young Spartans never looked back.",
+        "Coach Otieno praised the side's patience: \"We asked the boys and girls to trust the process, keep the ball and wait for our moments. They did exactly that.\"",
+        "The result sets up a mouth-watering last-four tie against Rift Rangers Academy, a fixture that has become a regular on the youth calendar in Uasin Gishu."
+      ],
+      "coverImage": "/gallery/spartans-celebration.jpg"
+    },
+    {
+      "slug": "academy-opens-new-eldoret-training-hub",
+      "title": "Academy opens new training hub in Eldoret",
+      "category": "Club News",
+      "date": "2026-10-10",
+      "readMins": 4,
+      "author": "Club Media",
+      "excerpt": "A community-funded pitch and classroom space will help Spartans give more local children a safe place to play and learn.",
+      "body": [
+        "Spartans FC has officially opened a brand-new training hub on the edge of Eldoret, complete with a levelled playing surface and a small classroom for after-school study.",
+        "The project was made possible by donations from parents, local businesses and a fundraising tournament held over the school holidays.",
+        "Club chairperson Mary Wanjala said the hub was about more than football: \"Every child should have somewhere safe to run, learn and belong. Today we made that a reality.\"",
+        "The hub will also host free weekend sessions for children aged six and up, with no experience required."
+      ],
+      "coverImage": "/gallery/spartans-coach-talk.jpg"
+    },
+    {
+      "slug": "five-spartans-called-up-to-county-select",
+      "title": "Five Spartans called up to county select squad",
+      "category": "Academy",
+      "date": "2026-10-06",
+      "readMins": 2,
+      "author": "Club Media",
+      "excerpt": "A club-record five players have been selected for the Uasin Gishu county youth representative side.",
+      "body": [
+        "Five Spartans players have been named in the Uasin Gishu county select squad for the upcoming regional tournament.",
+        "The call-ups reflect a strong season for the academy and the growing reputation of its player pathway.",
+        "It is a proud day for the players and their families, said the head of youth development. \"Our job is to give them the platform; they do the rest.\""
+      ],
+      "coverImage": "/gallery/spartans-trio.jpg"
+    },
+    {
+      "slug": "community-days-return-this-holiday",
+      "title": "Community football days return this holiday",
+      "category": "Community",
+      "date": "2026-10-01",
+      "readMins": 2,
+      "author": "Club Media",
+      "excerpt": "Free open sessions for local children return across three estates this school holiday.",
+      "body": [
+        "Spartans FC will host free community football days across Langas, Kapsoya and Elgon View this school holiday.",
+        "The sessions are open to all children, with equipment provided and no cost to families.",
+        "Volunteers and coaches who want to help can get in touch through the club contact page."
+      ],
+      "coverImage": "/gallery/spartans-squad.jpg"
+    }
+  ],
+  "gallery": [
+    {
+      "id": "tiktok-7698293130851880210",
+      "title": "Back on the grass",
+      "image": "/gallery/tiktok-7698293130851880210.jpg",
+      "video": "/videos/tiktok-7698293130851880210.mp4",
+      "tint": "from-spartan-gold/70 to-spartan-darkred",
+      "caption": "A training-ground montage from the Spartans academy: quick feet, brave running and the everyday work behind every matchday.",
+      "date": "19 Oct 2026",
+      "credit": "Spartans Soccer Academy"
+    },
+    {
+      "id": "tiktok-7696583631464107271",
+      "title": "The road to Arusha",
+      "image": "/gallery/tiktok-7696583631464107271.jpg",
+      "video": "/videos/tiktok-7696583631464107271.mp4",
+      "tint": "from-sky-700 to-spartan-ink",
+      "caption": "The academy shares the details of the 17th Chipkizi Cup in Arusha, Tanzania, as the Spartans prepare for a five-day adventure.",
+      "date": "14 Oct 2026",
+      "credit": "Spartans Soccer Academy"
+    },
+    {
+      "id": "tiktok-7695471155666373895",
+      "title": "Ready for the session",
+      "image": "/gallery/tiktok-7695471155666373895.jpg",
+      "video": "/videos/tiktok-7695471155666373895.mp4",
+      "tint": "from-emerald-700 to-spartan-ink",
+      "caption": "The squad gathers at Eldoret Premier School before another session, ready to learn and compete together.",
+      "date": "11 Oct 2026",
+      "credit": "Spartans Soccer Academy"
+    },
+    {
+      "id": "tiktok-7694717202917870855",
+      "title": "Arusha 2026: the challenge",
+      "image": "/gallery/tiktok-7694717202917870855.jpg",
+      "video": "/videos/tiktok-7694717202917870855.mp4",
+      "tint": "from-spartan-gold/70 to-spartan-darkred",
+      "caption": "Arusha, Tanzania, 7-13 December 2026. The Chipkizi Cup is the next big challenge for the Spartans.",
+      "date": "09 Oct 2026",
+      "credit": "Spartans Soccer Academy"
+    },
+    {
+      "id": "tiktok-7694714098092690696",
+      "title": "Together before kick-off",
+      "image": "/gallery/tiktok-7694714098092690696.jpg",
+      "video": "/videos/tiktok-7694714098092690696.mp4",
+      "tint": "from-emerald-700 to-spartan-ink",
+      "caption": "Coaches and players come together before kick-off. One team, one dream, one family.",
+      "date": "09 Oct 2026",
+      "credit": "Spartans Soccer Academy"
+    },
+    {
+      "id": "tiktok-7694711692676058386",
+      "title": "Chipkizi Cup 2026",
+      "image": "/gallery/tiktok-7694711692676058386.jpg",
+      "tint": "from-sky-700 to-spartan-ink",
+      "caption": "The 17th Chipkizi Cup takes the Spartans to Arusha, Tanzania, for five days of youth football.",
+      "date": "09 Oct 2026",
+      "credit": "Spartans Soccer Academy"
+    },
+    {
+      "id": "tiktok-7693631466944728328",
+      "title": "New kits, same badge",
+      "image": "/gallery/tiktok-7693631466944728328.jpg",
+      "video": "/videos/tiktok-7693631466944728328.mp4",
+      "tint": "from-spartan-gold/70 to-spartan-darkred",
+      "caption": "The Spartans kit, ready for the next chapter. The badge carries the academy's values wherever the team goes.",
+      "date": "06 Oct 2026",
+      "credit": "Spartans Soccer Academy"
+    },
+    {
+      "id": "tiktok-7693617088644123911",
+      "title": "The next generation",
+      "image": "/gallery/tiktok-7693617088644123911.jpg",
+      "video": "/videos/tiktok-7693617088644123911.mp4",
+      "tint": "from-spartan-gold/70 to-spartan-darkred",
+      "caption": "The next generation lines up at training. Every session is a chance to grow, on and off the pitch.",
+      "date": "06 Oct 2026",
+      "credit": "Spartans Soccer Academy"
+    },
+    {
+      "id": "tiktok-7693504003484798216",
+      "title": "The coach's eye",
+      "image": "/gallery/tiktok-7693504003484798216.jpg",
+      "video": "/videos/tiktok-7693504003484798216.mp4",
+      "tint": "from-spartan-gold/70 to-spartan-darkred",
+      "caption": "A focused moment on the touchline as the Spartans staff watch the next generation train.",
+      "date": "06 Oct 2026",
+      "credit": "Spartans Soccer Academy"
+    },
+    {
+      "id": "tiktok-7693501325031591186",
+      "title": "Chasing every ball",
+      "image": "/gallery/tiktok-7693501325031591186.jpg",
+      "video": "/videos/tiktok-7693501325031591186.mp4",
+      "tint": "from-purple-700 to-spartan-ink",
+      "caption": "Matchday energy from the Spartans academy: pressing, competing and playing with courage.",
+      "date": "06 Oct 2026",
+      "credit": "Spartans Soccer Academy"
+    },
+    {
+      "id": "ig-match-action",
+      "title": "Chasing every ball",
+      "image": "/gallery/spartans-match-action.jpg",
+      "tint": "from-spartan-red to-spartan-ink",
+      "caption": "A Spartans player drives forward with the ball at his feet, eyes up and defenders closing in. This is the brave, front-foot football the academy encourages: express yourself, trust your teammate and never stop running. The next generation of Eldoret football is being built in moments like this.",
+      "date": "21 Oct 2026",
+      "credit": "Spartans Soccer Academy / Instagram",
+      "link": "https://www.instagram.com/p/Dev27AziL1k/"
+    },
+    {
+      "id": "ig-team-photo",
+      "title": "Together after the final whistle",
+      "image": "/gallery/spartans-team-photo.jpg",
+      "tint": "from-emerald-700 to-spartan-ink",
+      "caption": "The team gathers after a long day of matches. Results matter, but the way the players carry themselves - for each other, for the badge and for the academy - matters more. Every game is a lesson, and every lesson brings this group closer.",
+      "date": "22 Aug 2026",
+      "credit": "Spartans Soccer Academy / Instagram",
+      "link": "https://www.instagram.com/p/DcWvxyoCHIW/"
+    },
+    {
+      "id": "ig-one-on-one",
+      "title": "One-on-one, no fear",
+      "image": "/gallery/spartans-one-on-one.jpg",
+      "tint": "from-sky-700 to-spartan-ink",
+      "caption": "A Spartans defender stands up to a tricky opponent in a tight one-on-one. Good defending is about patience, timing and courage - not just the tackle. The academy coaches the whole picture: body shape, communication and the confidence to recover and go again.",
+      "date": "21 Oct 2026",
+      "credit": "Spartans Soccer Academy / Instagram",
+      "link": "https://www.instagram.com/p/Dev27AziL1k/"
+    },
+    {
+      "id": "ig-weekend-run",
+      "title": "Weekend football at its best",
+      "image": "/gallery/spartans-weekend-run.jpg",
+      "tint": "from-spartan-gold to-spartan-red",
+      "caption": "Weekend action at the academy: end-to-end football, brave challenges and plenty of smiles. The players are learning to compete with freedom and to enjoy every minute of the game. The future of Eldoret football is getting sharper every week.",
+      "date": "08 Oct 2026",
+      "credit": "Spartans Soccer Academy / Instagram",
+      "link": "https://www.instagram.com/p/DePUYBCiDt1/"
+    },
+    {
+      "id": "ig-aerial-duel",
+      "title": "Up for the challenge",
+      "image": "/gallery/spartans-aerial-duel.jpg",
+      "tint": "from-amber-600 to-spartan-ink",
+      "caption": "A Spartans player rises to meet the ball in an aerial duel. This is the kind of courage the coaching team looks for: not just technical skill, but the willingness to put your body on the line for the team. The crowd loved it, and so did the coaches.",
+      "date": "08 Oct 2026",
+      "credit": "Spartans Soccer Academy / Instagram",
+      "link": "https://www.instagram.com/p/DePUYBCiDt1/"
+    },
+    {
+      "id": "ig-ball-control",
+      "title": "Control, then create",
+      "image": "/gallery/spartans-ball-control.jpg",
+      "tint": "from-emerald-700 to-spartan-ink",
+      "caption": "A young Spartan controls the ball under pressure and looks for the next pass. Ball mastery is at the heart of the academy's training: first touch, awareness and the confidence to play forward. Every session adds another layer.",
+      "date": "07 Oct 2026",
+      "credit": "Spartans Soccer Academy / Instagram",
+      "link": "https://www.instagram.com/p/DeNLN53Dn_u/"
+    },
+    {
+      "id": "ig-midfield-battle",
+      "title": "Winning the midfield",
+      "image": "/gallery/spartans-midfield-battle.jpg",
+      "tint": "from-sky-700 to-spartan-ink",
+      "caption": "The midfield battle is where matches are often decided. Here, a Spartans player competes for every inch, closes down the space and keeps the team moving. Hard work off the ball is just as important as the magic on it.",
+      "date": "07 Oct 2026",
+      "credit": "Spartans Soccer Academy / Instagram",
+      "link": "https://www.instagram.com/p/DeNLN53Dn_u/"
+    },
+    {
+      "id": "ig-celebration",
+      "title": "The joy of the game",
+      "image": "/gallery/spartans-celebration.jpg",
+      "tint": "from-spartan-red to-spartan-darkred",
+      "caption": "The celebration says it all. Football gives these young players a place to belong, a reason to work hard and a feeling of pure joy when it all comes together. The Spartans family celebrated this one together.",
+      "date": "07 Oct 2026",
+      "credit": "Spartans Soccer Academy / Instagram",
+      "link": "https://www.instagram.com/p/DeNJ4OmDk6p/"
+    },
+    {
+      "id": "ig-tackle",
+      "title": "Committed in the tackle",
+      "image": "/gallery/spartans-tackle.jpg",
+      "tint": "from-spartan-darkred to-spartan-ink",
+      "caption": "A full-blooded but fair challenge from a Spartans player. The academy teaches players to defend with intelligence and respect: win the ball, protect the team and help your teammate back to their feet. This is competition the right way.",
+      "date": "07 Oct 2026",
+      "credit": "Spartans Soccer Academy / Instagram",
+      "link": "https://www.instagram.com/p/DeNJ4OmDk6p/"
+    },
+    {
+      "id": "ig-dribble",
+      "title": "On the front foot",
+      "image": "/gallery/spartans-dribble.jpg",
+      "tint": "from-emerald-700 to-spartan-ink",
+      "caption": "A Spartans player takes on the defence with quick feet and a clear plan. The coaching staff want players who are brave enough to try things, but also smart enough to know when to release the ball. This is development in real time.",
+      "date": "11 Sep 2026",
+      "credit": "Spartans Soccer Academy / Instagram",
+      "link": "https://www.instagram.com/p/DdI-yCDiMgn/"
+    },
+    {
+      "id": "ig-strike",
+      "title": "The strike",
+      "image": "/gallery/spartans-strike.jpg",
+      "tint": "from-spartan-red to-spartan-ink",
+      "caption": "One touch to set, one swing of the boot, and the whole bench is on its feet. The academy works on finishing from every angle - because goals change games, and confidence changes players. A moment to remember.",
+      "date": "11 Sep 2026",
+      "credit": "Spartans Soccer Academy / Instagram",
+      "link": "https://www.instagram.com/p/DdI-yCDiMgn/"
+    },
+    {
+      "id": "ig-arrival",
+      "title": "Arriving ready",
+      "image": "/gallery/spartans-arrival.jpg",
+      "tint": "from-spartan-gold to-spartan-ink",
+      "caption": "The team arrives at the ground with boots, water and the club's colours. Matchday starts long before kick-off: the journey, the team talk and the little rituals that bring the group together. Every player knows what it means to wear this badge.",
+      "date": "11 Sep 2026",
+      "credit": "Spartans Soccer Academy / Instagram",
+      "link": "https://www.instagram.com/p/DdI-yCDiMgn/"
+    },
+    {
+      "id": "ig-coach-talk",
+      "title": "The coach's huddle",
+      "image": "/gallery/spartans-coach-talk.jpg",
+      "tint": "from-sky-700 to-spartan-ink",
+      "caption": "A coach gathers the players for a final message before kick-off. At Spartans, coaching is about more than tactics: it is about belief, discipline and making sure every child knows they belong. The words are simple, the impact lasts.",
+      "date": "22 Aug 2026",
+      "credit": "Spartans Soccer Academy / Instagram",
+      "link": "https://www.instagram.com/p/DcW03WTCN0T/"
+    },
+    {
+      "id": "ig-coach-player",
+      "title": "Walking out together",
+      "image": "/gallery/spartans-coach-player.jpg",
+      "tint": "from-amber-600 to-spartan-ink",
+      "caption": "A coach and player share a quiet moment on the way to the pitch. Behind every young Spartan is an adult who gives time, patience and belief. That partnership is the heart of the academy.",
+      "date": "22 Aug 2026",
+      "credit": "Spartans Soccer Academy / Instagram",
+      "link": "https://www.instagram.com/p/DcWvxyoCHIW/"
+    },
+    {
+      "id": "ig-on-the-ball",
+      "title": "Eyes on the next move",
+      "image": "/gallery/spartans-on-the-ball.jpg",
+      "tint": "from-emerald-700 to-spartan-ink",
+      "caption": "A Spartans player carries the ball with purpose, scanning for the next pass. The academy's playing idea is simple: be brave, be composed and play for each other. Every training session is another chance to grow.",
+      "date": "22 Aug 2026",
+      "credit": "Spartans Soccer Academy / Instagram",
+      "link": "https://www.instagram.com/p/DcWvxyoCHIW/"
+    },
+    {
+      "id": "ig-goal-celebration",
+      "title": "Arms wide, hearts full",
+      "image": "/gallery/spartans-goal-celebration.jpg",
+      "tint": "from-spartan-red to-spartan-gold",
+      "caption": "The celebration after a big moment. These are the memories that keep young players coming back week after week: the roar of the teammates, the pride of the coach and the pure joy of scoring for Spartans. The academy is built on moments like this.",
+      "date": "22 Aug 2026",
+      "credit": "Spartans Soccer Academy / Instagram",
+      "link": "https://www.instagram.com/p/DcWtAr2iAXX/"
+    },
+    {
+      "id": "ig-attack",
+      "title": "Breaking forward",
+      "image": "/gallery/spartans-attack.jpg",
+      "tint": "from-spartan-darkred to-spartan-ink",
+      "caption": "Spartans break forward with numbers and intent. The coaching team encourages the players to attack together and defend together, understanding the game as a team rather than a collection of individuals. This is the Spartans way.",
+      "date": "22 Aug 2026",
+      "credit": "Spartans Soccer Academy / Instagram",
+      "link": "https://www.instagram.com/p/DcWtAr2iAXX/"
+    },
+    {
+      "id": "ig-squad",
+      "title": "The Spartans family",
+      "image": "/gallery/spartans-squad.jpg",
+      "tint": "from-sky-700 to-spartan-ink",
+      "caption": "A full Spartans squad with the coaches after a matchday. Different ages, different personalities, one family. The academy is proud of every player and grateful to the families who make the journey possible.",
+      "date": "22 Aug 2026",
+      "credit": "Spartans Soccer Academy / Instagram",
+      "link": "https://www.instagram.com/p/DcWlkppiNGi/"
+    },
+    {
+      "id": "ig-trio",
+      "title": "Three Spartans, one badge",
+      "image": "/gallery/spartans-trio.jpg",
+      "tint": "from-spartan-gold to-spartan-red",
+      "caption": "Three young Spartans share a moment with their coach. Football gives them a team, a purpose and memories that go far beyond the final score. This is why the academy exists.",
+      "date": "22 Aug 2026",
+      "credit": "Spartans Soccer Academy / Instagram",
+      "link": "https://www.instagram.com/p/DcWlkppiNGi/"
+    },
+    {
+      "id": "ig-team-lineup",
+      "title": "The Spartans matchday squad",
+      "image": "/gallery/spartans-lineup.jpg",
+      "tint": "from-spartan-red to-spartan-ink",
+      "caption": "A full Spartans matchday squad, ready for another day of football in Eldoret. From the first whistle to the last, the academy's values travel with them: teamwork, discipline and the courage to keep going. This is what One Team, One Dream, One Family looks like on a Saturday morning.",
+      "date": "07 Oct 2026",
+      "credit": "Spartans Soccer Academy / Instagram",
+      "link": "https://www.instagram.com/p/DeNJ4OmDk6p/"
+    }
+  ],
+  "settings": {
+    "defaultFormation": "4-3-3",
+    "enabledFormations": [
+      "4-3-3",
+      "4-4-2",
+      "3-5-2",
+      "4-2-3-1",
+      "4-1-4-1",
+      "4-1-2-1-2",
+      "4-5-1",
+      "3-4-3",
+      "3-4-2-1",
+      "5-3-2",
+      "5-4-1",
+      "4-2-4"
+    ]
+  },
+  "info": {
+    "training": [
+      {
+        "label": "Saturday",
+        "value": "10:00 am – 12:00 pm"
+      },
+      {
+        "label": "Sunday",
+        "value": "2:00 pm – 4:00 pm"
+      },
+      {
+        "label": "Holidays (Mon–Fri)",
+        "value": "10:00 am – 1:00 pm"
+      }
+    ],
+    "fees": [
+      {
+        "label": "Daily training",
+        "value": "Ksh 200"
+      },
+      {
+        "label": "Daily transport",
+        "value": "Ksh 200"
+      },
+      {
+        "label": "Monthly fee",
+        "value": "Ksh 4,000 (or Ksh 3,000 upfront)"
+      },
+      {
+        "label": "Registration fee",
+        "value": "Ksh 1,000"
+      },
+      {
+        "label": "Home & away kit (black/red)",
+        "value": "Ksh 4,600"
+      }
+    ],
+    "tournament": {
+      "title": "5-Day Tournament — Arusha, Tanzania",
+      "dates": "7th – 13th December",
+      "cost": "Ksh 42,500",
+      "note": "Plus Ksh 12,000 for parent's transport"
+    }
+  },
+  "lineup": {
+    "formation": "4-3-3",
+    "slots": [
+      "brian-onyango",
+      "kevin-kimutai",
+      "mercy-jepkosgei",
+      "sospeter-otieno",
+      "joseph-malel",
+      "elvis-wanyonyi",
+      "dennis-mwangi",
+      "nessa-juma",
+      "collins-kiprop",
+      "linet-achieng",
+      "peter-barasa"
+    ]
+  }
+}

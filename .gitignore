@@ -1,0 +1,20 @@
+node_modules
+.next
+out
+build
+.env*
+!.env.example
+*.log
+.DS_Store
+next-env.d.ts
+.vercel
+
+# Runtime data that should not be committed
+data/messages.ndjson
+data/support.ndjson
+data/*.ndjson
+data/*.lock
+data/*.bak
+public/uploads/
+public/uploads/*.tmp
+tsconfig.tsbuildinfo
