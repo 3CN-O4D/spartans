@@ -1,9 +1,12 @@
 import { NextResponse } from "next/server";
 import path from "node:path";
 import { cookies } from "next/headers";
-import { handleUpload, type HandleUploadBody } from "@vercel/blob/client";
 import { ADMIN_COOKIE, isValidSession } from "@/lib/auth";
-import { publicBlobToken, publicStorageConfigured, writeBinary } from "@/lib/storage";
+import {
+  getPresignedUploadUrl,
+  publicStorageConfigured,
+  writeBinary,
+} from "@/lib/storage";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -37,40 +40,48 @@ export async function POST(req: Request) {
 
   const contentType = req.headers.get("content-type") || "";
 
-  // Vercel Blob client uploads. The browser asks this route for a short-lived
-  // token, then uploads the file directly to Blob. This bypasses the ~4.5 MB
-  // serverless request-body limit and is the production path.
+  // Cloudflare R2 presigned URL. The browser asks this route for a short-lived
+  // presigned PUT URL, then uploads the file directly to R2. This bypasses the
+  // ~4.5 MB serverless request-body limit and is the production path.
   if (contentType.includes("application/json")) {
     if (!publicStorageConfigured()) {
       return NextResponse.json(
-        { error: "Vercel Blob is not configured on this deployment" },
+        { error: "Storage is not configured on this deployment" },
         { status: 501 },
       );
     }
 
     try {
-      const body = (await req.json()) as HandleUploadBody;
-      const result = await handleUpload({
-        body,
-        request: req,
-        token: publicBlobToken(),
-        onBeforeGenerateToken: async (pathname) => {
-          const ext = path.extname(pathname).toLowerCase();
-          if (!pathname.startsWith("uploads/") || !Object.values(TYPES).includes(ext)) {
-            throw new Error("Invalid upload path");
-          }
-          return {
-            allowedContentTypes: ALLOWED_TYPES,
-            maximumSizeInBytes: MAX_BYTES,
-            addRandomSuffix: true,
-            allowOverwrite: false,
-            cacheControlMaxAge: 60 * 60 * 24 * 30,
-          };
-        },
-      });
-      return NextResponse.json(result);
+      const body = (await req.json()) as {
+        pathname?: string;
+        contentType?: string;
+      };
+
+      const pathname = body.pathname;
+      const fileType = body.contentType;
+
+      if (!pathname || !fileType) {
+        return NextResponse.json(
+          { error: "Missing pathname or contentType" },
+          { status: 400 },
+        );
+      }
+
+      const ext = path.extname(pathname).toLowerCase();
+      if (!pathname.startsWith("uploads/") || !Object.values(TYPES).includes(ext)) {
+        return NextResponse.json({ error: "Invalid upload path" }, { status: 400 });
+      }
+      if (!ALLOWED_TYPES.includes(fileType)) {
+        return NextResponse.json({ error: "Invalid content type" }, { status: 400 });
+      }
+
+      const { uploadUrl, publicUrl } = await getPresignedUploadUrl(
+        pathname,
+        fileType,
+      );
+      return NextResponse.json({ uploadUrl, publicUrl });
     } catch (error) {
-      console.error("[upload] Blob token request failed:", error);
+      console.error("[upload] presigned URL failed:", error);
       return NextResponse.json(
         { error: error instanceof Error ? error.message : "Upload failed" },
         { status: 400 },
@@ -79,7 +90,7 @@ export async function POST(req: Request) {
   }
 
   // Local development (and a small-file fallback): receive multipart form data
-  // and let the storage layer decide between disk and Vercel Blob.
+  // and let the storage layer decide between disk and Cloudflare R2.
   try {
     const form = await req.formData();
     const file = form.get("file");

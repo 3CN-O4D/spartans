@@ -74,49 +74,55 @@ Changes are saved explicitly with **Save changes**.
 ## Deployment on Vercel
 
 Vercel's filesystem is read-only and ephemeral. The app therefore uses
-**Vercel Blob** in production and automatically falls back to the local
+**Cloudflare R2** in production and automatically falls back to the local
 filesystem during development.
 
-### Create two Blob stores
+### Create an R2 bucket
 
-Vercel Blob stores have a fixed access mode, so create one of each:
+1. In Cloudflare Dashboard, go to **R2 Object Storage** → **Create bucket**
+2. Name it `spartans-media` (or any name you like)
+3. Leave **Public access** off
+4. Create **Manage R2 API Tokens** → **Create API token**
+5. Copy the **Access Key ID** and **Secret Access Key**
+6. Copy the **Endpoint** URL (e.g. `https://<account-id>.r2.cloudflarestorage.com`)
+7. (Optional) Add a **Custom domain** in R2 → Settings → Custom domains
+   (e.g. `https://media.spartanssocceracademy.com`) and set it as
+   `R2_PUBLIC_URL`
 
-1. **Public store** — for gallery images, uploaded photos and Instagram images.
-   Copy its read-write token to `BLOB_PUBLIC_READ_WRITE_TOKEN`.
-2. **Private store** — for `content.json`, sync state, locks and form
-   submissions. Copy its read-write token to `BLOB_PRIVATE_READ_WRITE_TOKEN`.
-
-Set both token variables in the Vercel project (Production, Preview and
-Development as needed). The public token is also used to issue browser-direct
-upload tokens, so OIDC-only authentication is not enough for admin uploads.
-
-### What lives where
-
-| Data | Storage | Access |
-| ---- | ------- | ------ |
-| Site content (`data/content.json`) | Private Blob | Server only |
-| Form submissions | Private Blob, one object per submission | Server only |
-| Instagram/TikTok sync state and locks | Private Blob | Server only |
-| Gallery, news covers, admin uploads | Public Blob | Public URL |
-| Synced TikTok videos and posters | Public Blob | Public URL |
-
-Existing images committed to `public/` (crest, icons, favicon, imported
-gallery photos) continue to work and are bundled with the deployment.
-
-Uploads go **directly from the browser to Vercel Blob**, so phone photos larger
-than Vercel's ~4.5 MB function request limit still work. The admin route
-validates the admin session, image type (PNG, JPEG, WebP or GIF; SVG is
-rejected) and an 8 MB size limit before issuing an upload token.
+Set these variables in the Vercel project (Production, Preview and
+Development as needed):
 
 ### Required environment variables
 
 ```bash
 ADMIN_PASSWORD=...
 NEXT_PUBLIC_SITE_URL=https://your-domain.example
-BLOB_PUBLIC_READ_WRITE_TOKEN=vercel_blob_rw_...
-BLOB_PRIVATE_READ_WRITE_TOKEN=vercel_blob_rw_...
+R2_ENDPOINT=https://<account-id>.r2.cloudflarestorage.com
+R2_ACCESS_KEY_ID=...
+R2_SECRET_ACCESS_KEY=...
+R2_BUCKET=spartans-media
+R2_PUBLIC_URL=https://media.yourdomain.com   # optional custom domain
 CRON_SECRET=...            # for the daily Instagram + TikTok sync
 ```
+
+### What lives where
+
+| Data | Storage | Access |
+| ---- | ------- | ------ |
+| Site content (`data/content.json`) | Private R2 object | Server only |
+| Form submissions | Private R2 object, one object per submission | Server only |
+| Instagram/TikTok sync state and locks | Private R2 object | Server only |
+| Gallery, news covers, admin uploads | Public R2 object | Public URL via `R2_PUBLIC_URL` |
+| Synced TikTok videos and posters | Public R2 object | Public URL via `R2_PUBLIC_URL` |
+
+Existing images committed to `public/` (crest, icons, favicon, imported
+gallery photos) continue to work and are bundled with the deployment.
+
+Uploads go **directly from the browser to Cloudflare R2** via a short-lived
+presigned URL, so phone photos larger than Vercel's ~4.5 MB function request
+limit still work. The admin route validates the admin session, image type
+(PNG, JPEG, WebP or GIF; SVG is rejected) and an 8 MB size limit before
+issuing a presigned upload URL.
 
 ### Contact form
 
@@ -166,9 +172,9 @@ curl -X POST "https://your-site.example/api/instagram/sync?force=1&source=tiktok
   -H "Authorization: Bearer $SYNC_SECRET"
 ```
 
-State lives in private Blob storage on Vercel (or
+State lives in private R2 storage on Vercel (or
 `data/instagram-sync.json` and `data/tiktok-sync.json` locally). New Instagram
-covers and TikTok posters/videos are written to the public Blob store (or
+covers and TikTok posters/videos are written to the public R2 store (or
 `public/gallery/` and `public/videos/` locally). Posts already present in the
 gallery are skipped, so it is safe to run often.
 

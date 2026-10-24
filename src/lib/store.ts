@@ -37,7 +37,7 @@ function merge(saved: Partial<Content>): Content {
 export async function readContent(): Promise<Content> {
   let raw: string | null = null;
   try {
-    raw = await readText(CONTENT_PATH, "private");
+    raw = await readText(CONTENT_PATH);
   } catch (error) {
     console.warn(
       "[store] Could not read content:",

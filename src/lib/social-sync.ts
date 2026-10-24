@@ -25,7 +25,7 @@ const LOCK_STALE_MS = 15 * 60 * 1000;
 
 async function acquireLock(): Promise<() => Promise<void>> {
   for (let attempt = 0; attempt < 2; attempt += 1) {
-    const existing = await readText(LOCK_PATH, "private").catch(() => null);
+    const existing = await readText(LOCK_PATH).catch(() => null);
     if (existing) {
       const stamp = existing.trim().split(/\s+/).pop() ?? "";
       const started = Date.parse(stamp);

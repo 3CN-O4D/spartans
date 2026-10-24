@@ -367,7 +367,7 @@ function galleryItemFor(post: TikTokPost, assets: Assets): GalleryItem {
 }
 
 async function readState(): Promise<TikTokState> {
-  const raw = await readText(STATE_PATH, "private").catch(() => null);
+  const raw = await readText(STATE_PATH).catch(() => null);
   let parsed: Partial<TikTokState> | null = null;
   if (raw) {
     try {
@@ -395,7 +395,7 @@ async function writeState(state: TikTokState): Promise<void> {
 
 async function acquireLock(): Promise<() => Promise<void>> {
   for (let attempt = 0; attempt < 2; attempt += 1) {
-    const existing = await readText(LOCK_PATH, "private").catch(() => null);
+    const existing = await readText(LOCK_PATH).catch(() => null);
     if (existing) {
       const stamp = existing.trim().split(/\s+/).pop() ?? "";
       const started = Date.parse(stamp);

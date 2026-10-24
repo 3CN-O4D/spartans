@@ -743,7 +743,7 @@ function buildGalleryItem(post: InstagramPost, draft: Draft, imagePath: string):
 }
 
 async function readState(): Promise<SyncState> {
-  const raw = await readText(STATE_PATH, "private").catch(() => null);
+  const raw = await readText(STATE_PATH).catch(() => null);
   let parsed: Partial<SyncState> | null = null;
   if (raw) {
     try {
@@ -771,7 +771,7 @@ async function writeState(state: SyncState): Promise<void> {
 
 async function acquireLock(): Promise<() => Promise<void>> {
   for (let attempt = 0; attempt < 2; attempt += 1) {
-    const existing = await readText(LOCK_PATH, "private").catch(() => null);
+    const existing = await readText(LOCK_PATH).catch(() => null);
     if (existing) {
       const stamp = existing.trim().split(/\s+/).pop() ?? "";
       const started = Date.parse(stamp);

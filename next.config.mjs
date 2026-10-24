@@ -1,6 +1,10 @@
 /** @type {import('next').NextConfig} */
 const isDev = process.env.NODE_ENV !== "production";
 
+const r2PublicHost = process.env.R2_PUBLIC_URL
+  ? new URL(process.env.R2_PUBLIC_URL).host
+  : "";
+
 const securityHeaders = [
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "X-Frame-Options", value: "DENY" },
@@ -19,9 +23,12 @@ const securityHeaders = [
       `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: blob: https:",
-      "media-src 'self' blob: https://*.blob.vercel-storage.com",
+      r2PublicHost
+        ? `media-src 'self' blob: https://${r2PublicHost}`
+        : "media-src 'self' blob: https:",
       "font-src 'self' data:",
-      "connect-src 'self' https://vercel.com https://blob.vercel-storage.com https://*.blob.vercel-storage.com" +
+      "connect-src 'self' https://vercel.com" +
+        (r2PublicHost ? ` https://${r2PublicHost}` : "") +
         (isDev ? " ws: wss:" : ""),
       "frame-ancestors 'none'",
       "base-uri 'self'",

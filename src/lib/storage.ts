@@ -1,50 +1,61 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { randomUUID } from "node:crypto";
-import { BlobNotFoundError, del, get, head, put } from "@vercel/blob";
+import {
+  S3Client,
+  GetObjectCommand,
+  PutObjectCommand,
+  DeleteObjectCommand,
+} from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+
+const ROOT = process.env.SPARTANS_STORAGE_ROOT?.trim() || process.cwd();
+
+const R2_ENDPOINT = process.env.R2_ENDPOINT?.trim();
+const R2_ACCESS_KEY_ID = process.env.R2_ACCESS_KEY_ID?.trim();
+const R2_SECRET_ACCESS_KEY = process.env.R2_SECRET_ACCESS_KEY?.trim();
+const R2_BUCKET = process.env.R2_BUCKET?.trim();
+const R2_PUBLIC_URL = process.env.R2_PUBLIC_URL?.trim();
+
+const r2Configured = Boolean(
+  R2_ENDPOINT && R2_ACCESS_KEY_ID && R2_SECRET_ACCESS_KEY && R2_BUCKET
+);
+
+const s3 = r2Configured
+  ? new S3Client({
+      endpoint: R2_ENDPOINT!,
+      region: "auto",
+      credentials: {
+        accessKeyId: R2_ACCESS_KEY_ID!,
+        secretAccessKey: R2_SECRET_ACCESS_KEY!,
+      },
+    })
+  : null;
+
+const PUBLIC_BASE = R2_PUBLIC_URL ? R2_PUBLIC_URL.replace(/\/$/, "") : "";
 
 /**
  * Storage abstraction for the CMS.
  *
- * Local development uses the repository's `data/` and `public/` folders. On
- * Vercel (or any host with a Blob token) the same paths are stored in Vercel
- * Blob instead, because the deployment filesystem is read-only and ephemeral.
- *
- * Public images are stored in a public Blob store. Content JSON, sync state,
- * lock files and form submissions are private Blob objects.
+ * Local development uses `data/` and `public/`. On production with R2
+ * configured, objects live in a Cloudflare R2 bucket. Public assets (gallery,
+ * videos, uploads) are served through `R2_PUBLIC_URL`. Content, sync state,
+ * locks and form submissions live in the same bucket but are not exposed
+ * through the public URL.
  */
 
 export type BlobAccess = "public" | "private";
 
-const ROOT = process.env.SPARTANS_STORAGE_ROOT?.trim() || process.cwd();
-
-/**
- * Images live in a public Blob store so browsers can load them directly.
- * Content, sync state, locks and form submissions live in a separate private
- * store. Vercel Blob access is a property of the store, so two stores are used.
- */
-export function publicBlobToken(): string {
-  return (
-    process.env.BLOB_PUBLIC_READ_WRITE_TOKEN?.trim() ||
-    process.env.BLOB_READ_WRITE_TOKEN?.trim() ||
-    ""
-  );
-}
-
-export function privateBlobToken(): string {
-  return process.env.BLOB_PRIVATE_READ_WRITE_TOKEN?.trim() || "";
-}
-
 export function publicStorageConfigured(): boolean {
-  return Boolean(publicBlobToken());
+  return r2Configured || !runningOnVercel();
 }
 
 export function privateStorageConfigured(): boolean {
-  return Boolean(privateBlobToken());
+  return r2Configured || !runningOnVercel();
 }
 
 export function blobConfigured(): boolean {
-  return publicStorageConfigured() && privateStorageConfigured();
+  return r2Configured || !runningOnVercel();
 }
 
 export function runningOnVercel(): boolean {
@@ -66,31 +77,34 @@ function publicPath(pathname: string): string {
 }
 
 function requireWritableLocalStorage(): void {
-  if (runningOnVercel()) {
+  if (runningOnVercel() && !r2Configured) {
     throw new Error(
-      "Persistent storage is not configured. Connect a Vercel Blob store and redeploy.",
+      "Persistent storage is not configured. Connect Cloudflare R2 and redeploy.",
     );
   }
 }
 
-export async function readText(
-  pathname: string,
-  access: BlobAccess = "private",
-): Promise<string | null> {
-  const token = access === "private" ? privateBlobToken() : publicBlobToken();
-  if (token) {
+export async function readText(pathname: string): Promise<string | null> {
+  if (r2Configured) {
     try {
-      const result = await get(pathname, { access, useCache: false, token });
-      if (result?.statusCode === 200) {
-        return await new Response(result.stream).text();
+      const command = new GetObjectCommand({
+        Bucket: R2_BUCKET!,
+        Key: pathname,
+      });
+      const response = await s3!.send(command);
+      const body = response.Body as NodeJS.ReadableStream;
+      const chunks: Buffer[] = [];
+      for await (const chunk of body) chunks.push(Buffer.from(chunk));
+      return Buffer.concat(chunks).toString("utf8");
+    } catch (error: unknown) {
+      const err = error as { name?: string; $metadata?: { httpStatusCode?: number } };
+      if (
+        err.name === "NoSuchKey" ||
+        err.$metadata?.httpStatusCode === 404
+      ) {
+        return null;
       }
-    } catch (error) {
-      // A missing Blob should fall through to the bundled seed file. Other
-      // failures are logged but still fall back so public pages keep working.
-      console.warn(
-        "[storage] Blob read failed:",
-        error instanceof Error ? error.message : error,
-      );
+      console.warn("[storage] R2 read failed:", error);
     }
   }
 
@@ -112,21 +126,26 @@ export async function writeText(
     allowOverwrite?: boolean;
   } = {},
 ): Promise<{ url: string; pathname: string }> {
-  const access = options.access ?? "private";
-  const token = access === "private" ? privateBlobToken() : publicBlobToken();
-  if (token) {
-    const result = await put(pathname, value, {
-      access,
-      addRandomSuffix: options.addRandomSuffix ?? false,
-      allowOverwrite: options.allowOverwrite ?? true,
-      contentType: options.contentType ?? "text/plain; charset=utf-8",
-      token,
+  const key = options.addRandomSuffix
+    ? `${pathname}-${randomUUID()}`
+    : pathname;
+
+  if (r2Configured) {
+    const command = new PutObjectCommand({
+      Bucket: R2_BUCKET!,
+      Key: key,
+      Body: value,
+      ContentType: options.contentType ?? "text/plain; charset=utf-8",
     });
-    return { url: result.url, pathname: result.pathname };
+    await s3!.send(command);
+
+    const isPublic = options.access === "public" && Boolean(PUBLIC_BASE);
+    const url = isPublic ? `${PUBLIC_BASE}/${key}` : `/${key}`;
+    return { url, pathname: key };
   }
 
   requireWritableLocalStorage();
-  const destination = localPath(pathname);
+  const destination = localPath(key);
   await fs.mkdir(path.dirname(destination), { recursive: true });
 
   if (options.allowOverwrite === false) {
@@ -136,13 +155,13 @@ export async function writeText(
     } finally {
       await handle.close();
     }
-    return { url: `/${pathname}`, pathname };
+    return { url: `/${key}`, pathname: key };
   }
 
   const temp = `${destination}.tmp-${process.pid}-${Date.now()}`;
   await fs.writeFile(temp, value, "utf8");
   await fs.rename(temp, destination);
-  return { url: `/${pathname}`, pathname };
+  return { url: `/${key}`, pathname: key };
 }
 
 export async function writeBinary(
@@ -150,17 +169,15 @@ export async function writeBinary(
   body: Buffer,
   contentType: string,
 ): Promise<string> {
-  const token = publicBlobToken();
-  if (token) {
-    const result = await put(pathname, body, {
-      access: "public",
-      addRandomSuffix: false,
-      allowOverwrite: true,
-      contentType,
-      cacheControlMaxAge: 60 * 60 * 24 * 30,
-      token,
+  if (r2Configured) {
+    const command = new PutObjectCommand({
+      Bucket: R2_BUCKET!,
+      Key: pathname,
+      Body: body,
+      ContentType: contentType,
     });
-    return result.url;
+    await s3!.send(command);
+    return PUBLIC_BASE ? `${PUBLIC_BASE}/${pathname}` : `/${pathname}`;
   }
 
   requireWritableLocalStorage();
@@ -171,14 +188,8 @@ export async function writeBinary(
 }
 
 export async function publicUrl(pathname: string): Promise<string | null> {
-  const token = publicBlobToken();
-  if (token) {
-    try {
-      const info = await head(pathname, { token });
-      return info.url;
-    } catch {
-      // Fall through to the bundled local file, if any.
-    }
+  if (r2Configured && PUBLIC_BASE) {
+    return `${PUBLIC_BASE}/${pathname}`;
   }
 
   try {
@@ -189,16 +200,14 @@ export async function publicUrl(pathname: string): Promise<string | null> {
   }
 }
 
-export async function deleteObject(
-  pathname: string,
-  access: BlobAccess = "private",
-): Promise<void> {
-  const token = access === "private" ? privateBlobToken() : publicBlobToken();
-  if (token) {
+export async function deleteObject(pathname: string): Promise<void> {
+  if (r2Configured) {
     try {
-      await del(pathname, { token });
-    } catch (error) {
-      if (!(error instanceof BlobNotFoundError)) throw error;
+      await s3!.send(
+        new DeleteObjectCommand({ Bucket: R2_BUCKET!, Key: pathname }),
+      );
+    } catch {
+      // Ignore missing objects.
     }
     return;
   }
@@ -210,16 +219,40 @@ export async function deleteObject(
   }
 }
 
+export async function getPresignedUploadUrl(
+  pathname: string,
+  contentType: string,
+): Promise<{ uploadUrl: string; publicUrl: string }> {
+  if (!r2Configured) {
+    throw new Error("R2 is not configured");
+  }
+
+  const command = new PutObjectCommand({
+    Bucket: R2_BUCKET!,
+    Key: pathname,
+    ContentType: contentType,
+  });
+  const uploadUrl = await getSignedUrl(s3!, command, { expiresIn: 300 });
+  const publicUrl = PUBLIC_BASE
+    ? `${PUBLIC_BASE}/${pathname}`
+    : `/${pathname}`;
+  return { uploadUrl, publicUrl };
+}
+
 export async function storeSubmission(
   kind: "registration" | "support",
   record: Record<string, unknown>,
 ): Promise<void> {
-  if (privateBlobToken()) {
+  if (r2Configured) {
     const stamp = new Date().toISOString().replace(/[:.]/g, "-");
-    await writeText(`data/${kind}/${stamp}-${randomUUID()}.json`, JSON.stringify(record), {
-      access: "private",
-      contentType: "application/json",
-    });
+    await writeText(
+      `data/${kind}/${stamp}-${randomUUID()}.json`,
+      JSON.stringify(record),
+      {
+        access: "private",
+        contentType: "application/json",
+      },
+    );
     return;
   }
 

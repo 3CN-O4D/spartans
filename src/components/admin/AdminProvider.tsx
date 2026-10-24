@@ -1,7 +1,6 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
-import { upload as uploadToBlob } from "@vercel/blob/client";
 import type { Content } from "@/lib/data";
 
 type Toast = { kind: "ok" | "err"; msg: string } | null;
@@ -105,18 +104,45 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     async (file: File) => {
       const safe = file.name.replace(/[^a-z0-9._-]/gi, "-").slice(-80) || "image.jpg";
 
-      // Production: upload straight from the browser to Vercel Blob. This
-      // avoids the 4.5 MB serverless request-body limit for phone photos.
+      // Production: ask the server for a short-lived R2 presigned PUT URL,
+      // then upload straight from the browser to Cloudflare R2. This avoids
+      // the 4.5 MB serverless request-body limit for phone photos.
       try {
-        const blob = await uploadToBlob(`uploads/${Date.now()}-${safe}`, file, {
-          access: "public",
-          handleUploadUrl: "/api/upload",
-          contentType: file.type || undefined,
+        const res = await fetch("/api/upload", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            pathname: `uploads/${Date.now()}-${safe}`,
+            contentType: file.type,
+          }),
         });
+
+        if (res.status === 401) {
+          goToLogin();
+          return null;
+        }
+
+        if (!res.ok) {
+          const data = (await res.json().catch(() => ({}))) as { error?: string };
+          notify("err", data.error ?? "Upload failed");
+          return null;
+        }
+
+        const { uploadUrl, publicUrl: finalUrl } = (await res.json()) as {
+          uploadUrl: string;
+          publicUrl: string;
+        };
+
+        await fetch(uploadUrl, {
+          method: "PUT",
+          body: file,
+          headers: { "Content-Type": file.type },
+        });
+
         notify("ok", "Image uploaded");
-        return blob.url;
+        return finalUrl;
       } catch {
-        // Blob may not be configured (local development), so fall back to the
+        // R2 may not be configured (local development), so fall back to the
         // multipart route. The route also rejects unsafe types and sizes.
       }
 
