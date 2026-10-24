@@ -102,7 +102,18 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
 
   const upload = useCallback(
     async (file: File) => {
-      const safe = file.name.replace(/[^a-z0-9._-]/gi, "-").slice(-80) || "image.jpg";
+      const safe = (() => {
+        const base = file.name.replace(/[^a-z0-9._-]/gi, "-").slice(-80);
+        if (!base) return "image.jpg";
+        if (/\.(jpg|jpeg|png|webp|gif)$/i.test(base)) return base;
+        const ext = {
+          "image/jpeg": ".jpg",
+          "image/png": ".png",
+          "image/webp": ".webp",
+          "image/gif": ".gif",
+        }[file.type] ?? ".jpg";
+        return `${base}${ext}`;
+      })();
 
       // Production: ask the server for a short-lived R2 presigned PUT URL,
       // then upload straight from the browser to Cloudflare R2. This avoids

@@ -67,16 +67,24 @@ export async function POST(req: Request) {
         );
       }
 
-      const ext = path.extname(pathname).toLowerCase();
+      const extFromName = path.extname(pathname).toLowerCase();
+      const extFromType = TYPES[fileType] ?? "";
+      const ext = extFromName || extFromType;
+
       if (!pathname.startsWith("uploads/") || !Object.values(TYPES).includes(ext)) {
         return NextResponse.json({ error: "Invalid upload path" }, { status: 400 });
       }
+
+      // Ensure the pathname carries the correct extension so R2 stores it properly.
+      const normalizedPathname = extFromName
+        ? pathname
+        : `${pathname}${extFromType}`;
       if (!ALLOWED_TYPES.includes(fileType)) {
         return NextResponse.json({ error: "Invalid content type" }, { status: 400 });
       }
 
       const { uploadUrl, publicUrl } = await getPresignedUploadUrl(
-        pathname,
+        normalizedPathname,
         fileType,
       );
       return NextResponse.json({ uploadUrl, publicUrl });
