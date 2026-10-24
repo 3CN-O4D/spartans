@@ -71,8 +71,17 @@ export async function POST(req: Request) {
       const extFromType = TYPES[fileType] ?? "";
       const ext = extFromName || extFromType;
 
-      if (!pathname.startsWith("uploads/") || !Object.values(TYPES).includes(ext)) {
-        return NextResponse.json({ error: "Invalid upload path" }, { status: 400 });
+      if (!pathname.startsWith("uploads/")) {
+        return NextResponse.json(
+          { error: `Path must start with uploads/. Got: ${pathname}` },
+          { status: 400 },
+        );
+      }
+      if (!Object.values(TYPES).includes(ext)) {
+        return NextResponse.json(
+          { error: `Unsupported extension '${ext}' for content type '${fileType}'` },
+          { status: 400 },
+        );
       }
 
       // Ensure the pathname carries the correct extension so R2 stores it properly.

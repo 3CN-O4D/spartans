@@ -109,7 +109,10 @@ export async function syncSocials(options: {
       ...(tiktok?.posts ?? []).map((post) => ({ ...post, source: "tiktok" as const })),
     ];
 
-    const ok = (instagram?.ok ?? true) && (tiktok?.ok ?? true);
+    // OK if at least one source succeeded or was skipped. Only fail if every
+    // source that was asked to run errored out.
+    const results = [instagram, tiktok].filter(Boolean);
+    const ok = results.length > 0 && results.some((r) => r?.ok !== false);
     return {
       ok,
       skipped: skipped && imported === 0,

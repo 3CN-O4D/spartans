@@ -57,8 +57,15 @@ async function handle(req: Request) {
   const clearLocks = !auth.publicAuto && url.searchParams.get("clearLocks") === "1";
   const result = await syncSocials({ mode, dryRun, force, source, clearLocks });
 
+  // Auto/cron syncs are best-effort background tasks — never fail the request
+  // even if one social source errors. Manual/admin calls surface the error.
+  const isBackground = auth.publicAuto || mode === "cron";
+  if (!result.ok && !isBackground) {
+    console.error("[sync] Social sync failed:", result.error);
+  }
+
   return NextResponse.json(result, {
-    status: result.ok ? 200 : 500,
+    status: isBackground ? 200 : (result.ok ? 200 : 500),
     headers: { "Cache-Control": "no-store" },
   });
 }
