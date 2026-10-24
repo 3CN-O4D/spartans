@@ -55,7 +55,7 @@ export function AdminChrome({ children }: { children: React.ReactNode }) {
               target="_blank"
               rel="noopener noreferrer"
               title={`@${tiktokHandle} on TikTok`}
-              aria-label="Spartans FC on TikTok (opens in a new tab)"
+              aria-label="Spartans Soccer Academy on TikTok (opens in a new tab)"
               className="hidden items-center gap-2 rounded-sm border border-white/15 px-3 py-2 text-xs font-bold uppercase tracking-widest text-white/60 transition hover:border-spartan-gold hover:text-spartan-gold md:inline-flex"
             >
               <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden="true">

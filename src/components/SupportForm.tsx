@@ -63,7 +63,7 @@ export function SupportForm({ club, initialType }: { club: Club; initialType?: s
           </p>
           <div className="mt-6 space-y-2 text-sm">
             <a
-              href={`mailto:${club.email}?subject=${encodeURIComponent("Supporting Spartans FC")}`}
+              href={`mailto:${club.email}?subject=${encodeURIComponent("Supporting Spartans Soccer Academy")}`}
               className="block text-spartan-gold hover:text-white"
             >
               {club.email}

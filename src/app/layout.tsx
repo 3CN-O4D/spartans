@@ -31,7 +31,7 @@ export async function generateMetadata(): Promise<Metadata> {
     applicationName: club.name,
     keywords: [
       club.name,
-      "Spartans FC",
+      "Spartans Soccer Academy",
       `${club.town} football`,
       "youth football Kenya",
       club.county,

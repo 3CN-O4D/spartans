@@ -421,7 +421,7 @@ function cleanTitle(input: string): string {
 function genericTitle(category: Category): string {
   switch (category) {
     case "Match Report":
-      return "Matchday with Spartans FC";
+      return "Matchday with Spartans Soccer Academy";
     case "Academy":
       return "Inside the Spartans training ground";
     case "Community":
@@ -542,7 +542,7 @@ async function callAi(post: InstagramPost, withJsonFormat: boolean): Promise<str
   };
   if (baseUrl.includes("openrouter.ai")) {
     headers["HTTP-Referer"] = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-    headers["X-Title"] = "Spartans FC";
+    headers["X-Title"] = "Spartans Soccer Academy";
   }
 
   const payload: Record<string, unknown> = {

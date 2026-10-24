@@ -43,7 +43,7 @@ export function isClubTeam(team: string, clubName: string) {
   const candidate = normalize(team);
   if (!candidate) return false;
   if (candidate === normalize(clubName)) return true;
-  // Tolerate abbreviated names such as "Spartans FC" vs "Spartans Soccer Academy".
+  // Tolerate abbreviated names such as "Spartans" vs "Spartans Soccer Academy".
   const firstWord = normalize(clubName.split(/\s+/)[0] ?? "");
   return firstWord.length >= 4 && candidate.includes(firstWord);
 }

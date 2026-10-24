@@ -22,7 +22,7 @@ const blank = (): Fixture => ({
   date: new Date().toISOString().slice(0, 10),
   time: "14:00",
   venue: "Home",
-  ground: "Spartans Arena, Eldoret",
+  ground: "Eldoret Premier School, Eldoret",
   status: "upcoming",
 });
 

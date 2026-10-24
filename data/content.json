@@ -1,6 +1,6 @@
 {
   "club": {
-    "name": "Spartans FC",
+    "name": "Spartans Soccer Academy",
     "nickname": "Spartans",
     "founded": 2026,
     "town": "Eldoret",
@@ -253,7 +253,7 @@
       "date": "2026-10-24",
       "time": "14:00",
       "venue": "Home",
-      "ground": "Spartans Arena, Eldoret",
+      "ground": "Eldoret Premier School, Eldoret",
       "status": "upcoming"
     },
     {
@@ -275,7 +275,7 @@
       "date": "2026-11-07",
       "time": "15:30",
       "venue": "Home",
-      "ground": "Spartans Arena, Eldoret",
+      "ground": "Eldoret Premier School, Eldoret",
       "status": "upcoming"
     },
     {
@@ -286,7 +286,7 @@
       "date": "2026-10-12",
       "time": "13:00",
       "venue": "Home",
-      "ground": "Spartans Arena, Eldoret",
+      "ground": "Eldoret Premier School, Eldoret",
       "status": "result",
       "scoreFor": 4,
       "scoreAgainst": 1
@@ -310,7 +310,7 @@
       "date": "2026-09-28",
       "time": "10:30",
       "venue": "Home",
-      "ground": "Spartans Arena, Eldoret",
+      "ground": "Eldoret Premier School, Eldoret",
       "status": "result",
       "scoreFor": 3,
       "scoreAgainst": 0
@@ -329,7 +329,7 @@
     },
     {
       "pos": 2,
-      "team": "Spartans FC",
+      "team": "Spartans Soccer Academy",
       "played": 9,
       "won": 7,
       "drawn": 1,
@@ -425,7 +425,7 @@
       "author": "Club Media",
       "excerpt": "A dominant second-half display saw the Under-15s book their place in the last four with a comfortable home win.",
       "body": [
-        "Spartans FC produced their most complete performance of the season on Saturday, easing past Elgon View Cubs to reach the semi-finals of the County Youth Cup.",
+        "Spartans Soccer Academy produced their most complete performance of the season on Saturday, easing past Elgon View Cubs to reach the semi-finals of the County Youth Cup.",
         "After a cagey opening, the deadlock was broken from a well-worked corner routine, and from there the young Spartans never looked back.",
         "Coach Otieno praised the side's patience: \"We asked the boys and girls to trust the process, keep the ball and wait for our moments. They did exactly that.\"",
         "The result sets up a mouth-watering last-four tie against Rift Rangers Academy, a fixture that has become a regular on the youth calendar in Uasin Gishu."
@@ -441,7 +441,7 @@
       "author": "Club Media",
       "excerpt": "A community-funded pitch and classroom space will help Spartans give more local children a safe place to play and learn.",
       "body": [
-        "Spartans FC has officially opened a brand-new training hub on the edge of Eldoret, complete with a levelled playing surface and a small classroom for after-school study.",
+        "Spartans Soccer Academy has officially opened a brand-new training hub on the edge of Eldoret, complete with a levelled playing surface and a small classroom for after-school study.",
         "The project was made possible by donations from parents, local businesses and a fundraising tournament held over the school holidays.",
         "Club chairperson Mary Wanjala said the hub was about more than football: \"Every child should have somewhere safe to run, learn and belong. Today we made that a reality.\"",
         "The hub will also host free weekend sessions for children aged six and up, with no experience required."
@@ -472,7 +472,7 @@
       "author": "Club Media",
       "excerpt": "Free open sessions for local children return across three estates this school holiday.",
       "body": [
-        "Spartans FC will host free community football days across Langas, Kapsoya and Elgon View this school holiday.",
+        "Spartans Soccer Academy will host free community football days across Langas, Kapsoya and Elgon View this school holiday.",
         "The sessions are open to all children, with equipment provided and no cost to families.",
         "Volunteers and coaches who want to help can get in touch through the club contact page."
       ],

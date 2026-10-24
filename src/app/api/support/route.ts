@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { storeSubmission } from "@/lib/storage";
+import { sendClubEmail, supportEmailBody } from "@/lib/email";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -87,6 +88,14 @@ export async function POST(req: Request) {
     type,
     message,
   };
+
+  // Send email to the club via Brevo SMTP (best-effort; submission is still stored).
+  try {
+    const email = supportEmailBody(record);
+    await sendClubEmail(email);
+  } catch {
+    // Email failure must not block support message storage.
+  }
 
   // Optional: forward to a webhook or form service. No API key is required
   // for a webhook URL, and the form still works locally without one.

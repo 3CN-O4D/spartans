@@ -122,10 +122,10 @@ export const club: Club = {
   town: "Eldoret",
   county: "Uasin Gishu",
   country: "Kenya",
-  ground: "Spartans Arena, Eldoret",
+  ground: "Eldoret Premier School, Eldoret",
   phone: "0720874395",
   phones: ["0720874395", "0722469659", "0723802791"],
-  email: "hello@spartansacademy.co.ke",
+  email: "spartanssocceracademy@gmail.com",
   motto: "One Team, One Dream, One Family",
   slogan: "Building Skills. Building Character. Building Champions.",
   ageGroup: "Under 9 – Under 17",
@@ -180,17 +180,17 @@ export const players: Player[] = [
 ];
 
 export const fixtures: Fixture[] = [
-  { id: "f1", competition: "Uasin Gishu Youth League", opponent: "Rift Rangers Academy", opponentInfo: "Strong academy side from the Rift Valley circuit.", date: "2026-10-24", time: "14:00", venue: "Home", ground: "Spartans Arena, Eldoret", status: "upcoming" },
+  { id: "f1", competition: "Uasin Gishu Youth League", opponent: "Rift Rangers Academy", opponentInfo: "Strong academy side from the Rift Valley circuit.", date: "2026-10-24", time: "14:00", venue: "Home", ground: "Eldoret Premier School, Eldoret", status: "upcoming" },
   { id: "f2", competition: "County Youth Cup", opponent: "Cheptiret Stars", opponentInfo: "Cup specialists with a lively away support.", date: "2026-10-31", time: "11:00", venue: "Away", ground: "Cheptiret Grounds", status: "upcoming" },
-  { id: "f3", competition: "Uasin Gishu Youth League", opponent: "Kapsoya United Kids", opponentInfo: "Current league leaders.", date: "2026-11-07", time: "15:30", venue: "Home", ground: "Spartans Arena, Eldoret", status: "upcoming" },
-  { id: "f4", competition: "Friendly", opponent: "Elgon View Cubs", opponentInfo: "Neighbourly friendly fixture.", date: "2026-10-12", time: "13:00", venue: "Home", ground: "Spartans Arena, Eldoret", status: "result", scoreFor: 4, scoreAgainst: 1 },
+  { id: "f3", competition: "Uasin Gishu Youth League", opponent: "Kapsoya United Kids", opponentInfo: "Current league leaders.", date: "2026-11-07", time: "15:30", venue: "Home", ground: "Eldoret Premier School, Eldoret", status: "upcoming" },
+  { id: "f4", competition: "Friendly", opponent: "Elgon View Cubs", opponentInfo: "Neighbourly friendly fixture.", date: "2026-10-12", time: "13:00", venue: "Home", ground: "Eldoret Premier School, Eldoret", status: "result", scoreFor: 4, scoreAgainst: 1 },
   { id: "f5", competition: "Uasin Gishu Youth League", opponent: "Kimumu Warriors", date: "2026-10-05", time: "14:00", venue: "Away", ground: "Kimumu Primary", status: "result", scoreFor: 2, scoreAgainst: 2 },
-  { id: "f6", competition: "County Youth Cup", opponent: "Ngeria Stars", date: "2026-09-28", time: "10:30", venue: "Home", ground: "Spartans Arena, Eldoret", status: "result", scoreFor: 3, scoreAgainst: 0 },
+  { id: "f6", competition: "County Youth Cup", opponent: "Ngeria Stars", date: "2026-09-28", time: "10:30", venue: "Home", ground: "Eldoret Premier School, Eldoret", status: "result", scoreFor: 3, scoreAgainst: 0 },
 ];
 
 export const leagueTable: TableRow[] = [
   { pos: 1, team: "Kapsoya United Kids", played: 9, won: 8, drawn: 0, lost: 1, gd: 19, points: 24 },
-  { pos: 2, team: "Spartans FC", played: 9, won: 7, drawn: 1, lost: 1, gd: 16, points: 22 },
+  { pos: 2, team: "Spartans Soccer Academy", played: 9, won: 7, drawn: 1, lost: 1, gd: 16, points: 22 },
   { pos: 3, team: "Rift Rangers Academy", played: 9, won: 6, drawn: 1, lost: 2, gd: 11, points: 19 },
   { pos: 4, team: "Cheptiret Stars", played: 9, won: 4, drawn: 3, lost: 2, gd: 5, points: 15 },
   { pos: 5, team: "Kimumu Warriors", played: 9, won: 3, drawn: 3, lost: 3, gd: 1, points: 12 },
@@ -209,7 +209,7 @@ export const articles: Article[] = [
     author: "Club Media",
     excerpt: "A dominant second-half display saw the Under-15s book their place in the last four with a comfortable home win.",
     body: [
-      "Spartans FC produced their most complete performance of the season on Saturday, easing past Elgon View Cubs to reach the semi-finals of the County Youth Cup.",
+      "Spartans Soccer Academy produced their most complete performance of the season on Saturday, easing past Elgon View Cubs to reach the semi-finals of the County Youth Cup.",
       "After a cagey opening, the deadlock was broken from a well-worked corner routine, and from there the young Spartans never looked back.",
       'Coach Otieno praised the side\'s patience: "We asked the boys and girls to trust the process, keep the ball and wait for our moments. They did exactly that."',
       "The result sets up a mouth-watering last-four tie against Rift Rangers Academy, a fixture that has become a regular on the youth calendar in Uasin Gishu.",
@@ -224,7 +224,7 @@ export const articles: Article[] = [
     author: "Club Media",
     excerpt: "A community-funded pitch and classroom space will help Spartans give more local children a safe place to play and learn.",
     body: [
-      "Spartans FC has officially opened a brand-new training hub on the edge of Eldoret, complete with a levelled playing surface and a small classroom for after-school study.",
+      "Spartans Soccer Academy has officially opened a brand-new training hub on the edge of Eldoret, complete with a levelled playing surface and a small classroom for after-school study.",
       "The project was made possible by donations from parents, local businesses and a fundraising tournament held over the school holidays.",
       'Club chairperson Mary Wanjala said the hub was about more than football: "Every child should have somewhere safe to run, learn and belong. Today we made that a reality."',
       "The hub will also host free weekend sessions for children aged six and up, with no experience required.",
@@ -253,7 +253,7 @@ export const articles: Article[] = [
     author: "Club Media",
     excerpt: "Free open sessions for local children return across three estates this school holiday.",
     body: [
-      "Spartans FC will host free community football days across Langas, Kapsoya and Elgon View this school holiday.",
+      "Spartans Soccer Academy will host free community football days across Langas, Kapsoya and Elgon View this school holiday.",
       "The sessions are open to all children, with equipment provided and no cost to families.",
       "Volunteers and coaches who want to help can get in touch through the club contact page.",
     ],
@@ -261,7 +261,7 @@ export const articles: Article[] = [
 ];
 
 export const gallery: GalleryItem[] = [
-  { id: "g1", title: "Matchday at Spartans Arena", tint: "from-spartan-red to-spartan-ink" },
+  { id: "g1", title: "Matchday at Eldoret Premier School", tint: "from-spartan-red to-spartan-ink" },
   { id: "g2", title: "Under-13 training session", tint: "from-spartan-gold to-spartan-red" },
   { id: "g3", title: "County Cup celebrations", tint: "from-sky-700 to-spartan-ink" },
   { id: "g4", title: "Community open day", tint: "from-emerald-600 to-spartan-ink" },

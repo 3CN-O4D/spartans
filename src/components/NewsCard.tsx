@@ -31,7 +31,7 @@ export function NewsCard({ article, featured = false }: { article: Article; feat
               className="absolute left-1/2 top-1/2 h-24 w-24 -translate-x-1/2 -translate-y-1/2 opacity-30"
             />
             <span className="absolute bottom-4 left-4 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
-              Spartans FC
+              Spartans Soccer Academy
             </span>
           </div>
         )}

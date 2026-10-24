@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { storeSubmission } from "@/lib/storage";
+import { sendClubEmail, registrationEmailBody } from "@/lib/email";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -91,6 +92,14 @@ export async function POST(req: Request) {
     email,
     notes,
   };
+
+  // Send email to the club via Brevo SMTP (best-effort; submission is still stored).
+  try {
+    const email = registrationEmailBody(record);
+    await sendClubEmail(email);
+  } catch {
+    // Email failure must not block registration storage.
+  }
 
   // Preferred path: forward to a webhook / form service (works on serverless).
   const webhook = process.env.CONTACT_WEBHOOK_URL;
