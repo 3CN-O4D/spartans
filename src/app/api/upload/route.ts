@@ -11,17 +11,35 @@ import {
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-const MAX_BYTES = 8 * 1024 * 1024; // 8 MB
+const MAX_IMAGE_BYTES = 8 * 1024 * 1024; // 8 MB
+const MAX_VIDEO_BYTES = 100 * 1024 * 1024; // 100 MB
 
 // SVG is deliberately excluded: an uploaded SVG is served from our own origin
 // and can carry script, which would be a stored-XSS vector.
-const TYPES: Record<string, string> = {
+const IMAGE_TYPES: Record<string, string> = {
   "image/png": ".png",
   "image/jpeg": ".jpg",
   "image/webp": ".webp",
   "image/gif": ".gif",
+  "image/avif": ".avif",
+  "image/bmp": ".bmp",
 };
+
+const VIDEO_TYPES: Record<string, string> = {
+  "video/mp4": ".mp4",
+  "video/webm": ".webm",
+  "video/quicktime": ".mov",
+  "video/x-matroska": ".mkv",
+};
+
+const TYPES: Record<string, string> = { ...IMAGE_TYPES, ...VIDEO_TYPES };
 const ALLOWED_TYPES = Object.keys(TYPES);
+
+const VIDEO_EXTENSIONS = new Set(Object.values(VIDEO_TYPES));
+
+function maxBytesFor(ext: string): number {
+  return VIDEO_EXTENSIONS.has(ext) ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES;
+}
 
 function safeName(originalName: string, ext: string) {
   const base = path
@@ -29,7 +47,11 @@ function safeName(originalName: string, ext: string) {
     .replace(/[^a-z0-9-_]/gi, "-")
     .toLowerCase()
     .slice(0, 40);
-  return `${base || "image"}-${Date.now()}${ext}`;
+  return `${base || "file"}-${Date.now()}${ext}`;
+}
+
+function isVideo(ext: string): boolean {
+  return VIDEO_EXTENSIONS.has(ext);
 }
 
 export async function POST(req: Request) {
@@ -69,7 +91,10 @@ export async function POST(req: Request) {
 
       const extFromName = path.extname(pathname).toLowerCase();
       const extFromType = TYPES[fileType] ?? "";
-      const ext = extFromName || extFromType;
+      // Normalize .jpeg → .jpg so both extensions are accepted.
+      const normalizedExt = (ext: string): string =>
+        ext === ".jpeg" ? ".jpg" : ext;
+      const ext = normalizedExt(extFromName) || normalizedExt(extFromType);
 
       if (!pathname.startsWith("uploads/")) {
         return NextResponse.json(
@@ -79,18 +104,19 @@ export async function POST(req: Request) {
       }
       if (!Object.values(TYPES).includes(ext)) {
         return NextResponse.json(
-          { error: `Unsupported extension '${ext}' for content type '${fileType}'` },
+          { error: `Unsupported extension '${extFromName}' for content type '${fileType}'` },
           { status: 400 },
         );
       }
 
+      if (!ALLOWED_TYPES.includes(fileType)) {
+        return NextResponse.json({ error: `Invalid content type: ${fileType}` }, { status: 400 });
+      }
+
       // Ensure the pathname carries the correct extension so R2 stores it properly.
       const normalizedPathname = extFromName
-        ? pathname
+        ? pathname.replace(/\.jpeg$/i, ".jpg")
         : `${pathname}${extFromType}`;
-      if (!ALLOWED_TYPES.includes(fileType)) {
-        return NextResponse.json({ error: "Invalid content type" }, { status: 400 });
-      }
 
       const { uploadUrl, publicUrl } = await getPresignedUploadUrl(
         normalizedPathname,
@@ -118,12 +144,20 @@ export async function POST(req: Request) {
     const ext = TYPES[file.type];
     if (!ext) {
       return NextResponse.json(
-        { error: "Unsupported image type. Use PNG, JPEG, WebP or GIF." },
+        {
+          error: `Unsupported file type '${file.type}'. Use PNG, JPEG, WebP, GIF, AVIF, BMP, MP4, WebM, MOV or MKV.`,
+        },
         { status: 400 },
       );
     }
-    if (file.size > MAX_BYTES) {
-      return NextResponse.json({ error: "Image must be 8 MB or smaller" }, { status: 413 });
+
+    const maxBytes = maxBytesFor(ext);
+    if (file.size > maxBytes) {
+      const kind = isVideo(ext) ? "Video" : "Image";
+      return NextResponse.json(
+        { error: `${kind} must be ${Math.round(maxBytes / 1024 / 1024)} MB or smaller` },
+        { status: 413 },
+      );
     }
     if (file.size === 0) {
       return NextResponse.json({ error: "File is empty" }, { status: 400 });

@@ -104,13 +104,21 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     async (file: File) => {
       const safe = (() => {
         const base = file.name.replace(/[^a-z0-9._-]/gi, "-").slice(-80);
-        if (!base) return "image.jpg";
-        if (/\.(jpg|jpeg|png|webp|gif)$/i.test(base)) return base;
+        if (!base) return "file.mp4";
+        if (/\.(jpg|jpeg|png|webp|gif|avif|bmp|mp4|webm|mov|mkv)$/i.test(base)) {
+          return base.replace(/\.jpeg$/i, ".jpg");
+        }
         const ext = {
           "image/jpeg": ".jpg",
           "image/png": ".png",
           "image/webp": ".webp",
           "image/gif": ".gif",
+          "image/avif": ".avif",
+          "image/bmp": ".bmp",
+          "video/mp4": ".mp4",
+          "video/webm": ".webm",
+          "video/quicktime": ".mov",
+          "video/x-matroska": ".mkv",
         }[file.type] ?? ".jpg";
         return `${base}${ext}`;
       })();
