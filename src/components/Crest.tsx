@@ -56,7 +56,7 @@ export function Crest({
 export function CrestWordmark({
   className = "",
   logo,
-  name = "Spartans",
+  name = "Spartans Soccer Academy",
   town = "Eldoret",
 }: {
   className?: string;
@@ -64,12 +64,11 @@ export function CrestWordmark({
   name?: string;
   town?: string;
 }) {
-  const short = name.split(/\s+/)[0] || name;
   return (
     <div className={`flex items-center gap-3 ${className}`}>
       <Crest className="h-12 w-12" logo={logo} alt={`${name} crest`} priority />
-      <div className="leading-none">
-        <div className="font-display text-xl text-white">{short.toUpperCase()}</div>
+      <div className="leading-tight">
+        <div className="font-display text-sm leading-tight text-white">{name}</div>
         <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-spartan-gold">
           {town}
         </div>
