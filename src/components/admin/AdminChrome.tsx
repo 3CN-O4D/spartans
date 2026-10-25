@@ -7,6 +7,7 @@ import { CrestWordmark } from "@/components/Crest";
 
 const nav = [
   { href: "/admin", label: "Dashboard" },
+  { href: "/admin/submissions", label: "Submissions" },
   { href: "/admin/news", label: "News & Blog" },
   { href: "/admin/gallery", label: "Gallery" },
   { href: "/admin/squad", label: "Squad" },

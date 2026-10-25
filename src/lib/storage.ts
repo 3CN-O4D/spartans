@@ -6,6 +6,7 @@ import {
   GetObjectCommand,
   PutObjectCommand,
   DeleteObjectCommand,
+  ListObjectsV2Command,
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
@@ -261,4 +262,67 @@ export async function storeSubmission(
   const destination = localPath(file);
   await fs.mkdir(path.dirname(destination), { recursive: true });
   await fs.appendFile(destination, `${JSON.stringify(record)}\n`, "utf8");
+}
+
+export type Submission = Record<string, unknown> & {
+  id?: string;
+  createdAt?: string;
+};
+
+export async function listSubmissions(
+  kind: "registration" | "support",
+  limit = 50,
+): Promise<Submission[]> {
+  if (r2Configured) {
+    const prefix = `data/${kind}/`;
+    try {
+      const command = new ListObjectsV2Command({
+        Bucket: R2_BUCKET!,
+        Prefix: prefix,
+        MaxKeys: limit * 2,
+      });
+      const response = await s3!.send(command);
+      const items = response.Contents ?? [];
+      // Newest first by key (timestamp is in filename)
+      items.sort((a, b) => (b.Key || "").localeCompare(a.Key || ""));
+      const entries: Submission[] = [];
+      for (const item of items.slice(0, limit)) {
+        if (!item.Key) continue;
+        const text = await readText(item.Key);
+        if (!text) continue;
+        try {
+          entries.push(JSON.parse(text) as Submission);
+        } catch {
+          // skip malformed
+        }
+      }
+      return entries;
+    } catch (error) {
+      console.warn("[storage] Failed to list submissions from R2:", error);
+      return [];
+    }
+  }
+
+  requireWritableLocalStorage();
+  const file = kind === "support" ? "data/support.ndjson" : "data/messages.ndjson";
+  try {
+    const raw = await fs.readFile(localPath(file), "utf8");
+    const lines = raw
+      .split("\n")
+      .filter((l) => l.trim())
+      .reverse()
+      .slice(0, limit);
+    const entries: Submission[] = [];
+    for (const line of lines) {
+      try {
+        entries.push(JSON.parse(line) as Submission);
+      } catch {
+        // skip
+      }
+    }
+    return entries;
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") return [];
+    throw error;
+  }
 }
