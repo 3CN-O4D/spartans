@@ -10,16 +10,63 @@ import { SectionHeading } from "@/components/SectionHeading";
 import { readContent } from "@/lib/store";
 import { byKickoff, byKickoffDesc, isClubTeam } from "@/lib/format";
 import { playerOverall } from "@/lib/ratings";
+import type { Fixture } from "@/lib/data";
 
 export const dynamic = "force-dynamic";
+
+function getKickoffMs(f: Fixture) {
+  const time = f.time?.trim() || "00:00";
+  const when = new Date(`${f.date}T${time}:00+03:00`).getTime();
+  return Number.isNaN(when) ? null : when;
+}
 
 export default async function HomePage() {
   const { club, articles, fixtures, leagueTable, players } = await readContent();
 
-  const upcoming = fixtures.filter((f) => f.status === "upcoming").sort(byKickoff);
-  const results = fixtures.filter((f) => f.status === "result").sort(byKickoffDesc);
+  const now = Date.now();
+  const withTime = fixtures
+    .map((f) => ({ fixture: f, ms: getKickoffMs(f) }))
+    .filter((x): x is { fixture: Fixture; ms: number } => x.ms !== null)
+    .sort((a, b) => a.ms - b.ms);
+
+  // Pick the next match to feature in hero/countdown.
+  // If a match started less than 3 hours ago, switch to the next match after it.
+  let featuredNext = withTime.find((x) => x.ms > now);
+  const recentlyStarted = [...withTime]
+    .reverse()
+    .find((x) => x.ms <= now && now - x.ms < 3 * 60 * 60 * 1000);
+  if (recentlyStarted) {
+    const afterRecent = withTime.find((x) => x.ms > recentlyStarted.ms);
+    if (afterRecent) {
+      featuredNext = afterRecent;
+    }
+  }
+  const next = featuredNext?.fixture ?? null;
+
+  // Build upcoming list for the fixtures section: future matches, or next after a recent match.
+  let upcomingFixtures = withTime
+    .filter((x) => x.ms > now)
+    .map((x) => x.fixture);
+  if (recentlyStarted) {
+    const afterRecent = withTime
+      .filter((x) => x.ms > recentlyStarted.ms)
+      .map((x) => x.fixture);
+    if (afterRecent.length) {
+      upcomingFixtures = afterRecent;
+    }
+  }
+
+  const results = fixtures
+    .filter((f) => {
+      const ms = getKickoffMs(f);
+      if (ms === null) return f.status === "result";
+      // Move past matches (started >= 3 hours ago or explicitly marked result) to results
+      if (f.status === "result") return true;
+      if (ms <= now - 3 * 60 * 60 * 1000) return true;
+      return false;
+    })
+    .sort(byKickoffDesc);
   const table = [...leagueTable].sort((a, b) => a.pos - b.pos);
-  const next = upcoming[0];
   const featured = articles[0];
   const rest = articles.slice(1);
   const squadPreview = [...players].sort((a, b) => a.squadNo - b.squadNo).slice(0, 4);
@@ -185,8 +232,8 @@ export default async function HomePage() {
                 Upcoming
               </h3>
               <div className="mt-4">
-                {upcoming.length ? (
-                  upcoming.map((f) => <MatchRow key={f.id} fixture={f} />)
+                {upcomingFixtures.length ? (
+                  upcomingFixtures.map((f) => <MatchRow key={f.id} fixture={f} />)
                 ) : (
                   <p className="text-sm text-white/40">No upcoming fixtures.</p>
                 )}

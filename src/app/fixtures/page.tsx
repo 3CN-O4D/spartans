@@ -4,14 +4,50 @@ import { PageHero } from "@/components/PageHero";
 import { MatchCard, MatchRow } from "@/components/MatchCard";
 import { readContent } from "@/lib/store";
 import { byKickoff, byKickoffDesc, isClubTeam } from "@/lib/format";
+import type { Fixture } from "@/lib/data";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "Fixtures & Results" };
 
+function getKickoffMs(f: Fixture) {
+  const time = f.time?.trim() || "00:00";
+  const when = new Date(`${f.date}T${time}:00+03:00`).getTime();
+  return Number.isNaN(when) ? null : when;
+}
+
 export default async function FixturesPage() {
   const { club, fixtures, leagueTable } = await readContent();
-  const upcoming = fixtures.filter((f) => f.status === "upcoming").sort(byKickoff);
-  const results = fixtures.filter((f) => f.status === "result").sort(byKickoffDesc);
+  const now = Date.now();
+
+  const withTime = fixtures
+    .map((f) => ({ fixture: f, ms: getKickoffMs(f) }))
+    .filter((x): x is { fixture: Fixture; ms: number } => x.ms !== null)
+    .sort((a, b) => a.ms - b.ms);
+
+  // Find the most recently started match within last 3 hours
+  const recentlyStarted = [...withTime]
+    .reverse()
+    .find((x) => x.ms <= now && now - x.ms < 3 * 60 * 60 * 1000);
+
+  // Upcoming = future matches; if a match just started (within 3h), show matches after it
+  let upcomingList = withTime.filter((x) => x.ms > now).map((x) => x.fixture);
+  if (recentlyStarted) {
+    const after = withTime.filter((x) => x.ms > recentlyStarted.ms).map((x) => x.fixture);
+    if (after.length) upcomingList = after;
+  }
+
+  // Results = past/completed (explicitly marked result, or started >= 3h ago)
+  const results = fixtures
+    .filter((f) => {
+      const ms = getKickoffMs(f);
+      if (ms === null) return f.status === "result";
+      if (f.status === "result") return true;
+      if (ms <= now - 3 * 60 * 60 * 1000) return true;
+      return false;
+    })
+    .sort(byKickoffDesc);
+
+  const upcoming = upcomingList.sort(byKickoff);
   const table = [...leagueTable].sort((a, b) => a.pos - b.pos);
 
   return (
