@@ -44,8 +44,12 @@ function PlayBadge({ label }: { label?: string }) {
 const overlayButton =
   "absolute inset-0 z-20 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-spartan-gold";
 
+/** How many extra photos to reveal per "Show more" press. */
+const PAGE_SIZE = 24;
+
 export function GalleryGrid({ items }: { items: GalleryItem[] }) {
   const [active, setActive] = useState<GalleryItem | null>(null);
+  const [visible, setVisible] = useState(PAGE_SIZE);
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   function open(item: GalleryItem) {
@@ -63,6 +67,8 @@ export function GalleryGrid({ items }: { items: GalleryItem[] }) {
   }
 
   const [feature, ...rest] = items;
+  const shown = rest.slice(0, visible);
+  const remaining = rest.length - shown.length;
 
   return (
     <>
@@ -119,7 +125,7 @@ export function GalleryGrid({ items }: { items: GalleryItem[] }) {
 
       {rest.length > 0 && (
         <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {rest.map((g) => (
+          {shown.map((g) => (
             <figure key={g.id} className="card group relative">
               <div className={`relative aspect-[4/3] w-full overflow-hidden bg-gradient-to-br ${g.tint}`}>
                 {g.image ? (
@@ -168,6 +174,18 @@ export function GalleryGrid({ items }: { items: GalleryItem[] }) {
               />
             </figure>
           ))}
+        </div>
+      )}
+
+      {remaining > 0 && (
+        <div className="mt-8 flex justify-center">
+          <button
+            type="button"
+            onClick={() => setVisible((count) => count + PAGE_SIZE)}
+            className="btn-ghost"
+          >
+            Show more photos ({remaining} left)
+          </button>
         </div>
       )}
 

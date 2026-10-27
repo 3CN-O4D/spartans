@@ -26,10 +26,22 @@ export default function AdminGallery() {
   const { content, setContent, upload, loading } = useAdmin();
   const fileRef = useRef<HTMLInputElement>(null);
   const [busy, setBusy] = useState(false);
+  const [query, setQuery] = useState("");
+  const [limit, setLimit] = useState(24);
 
   if (loading || !content) return <p className="text-white/50">Loading…</p>;
 
   const items = content.gallery;
+  const needle = query.trim().toLowerCase();
+  const filtered = needle
+    ? items.filter(
+        (g) =>
+          g.title.toLowerCase().includes(needle) ||
+          g.id.toLowerCase().includes(needle) ||
+          (g.date ?? "").toLowerCase().includes(needle),
+      )
+    : items;
+  const shown = filtered.slice(0, limit);
 
   function update(id: string, patch: Partial<GalleryItem>) {
     setContent((c) =>
@@ -113,8 +125,28 @@ export default function AdminGallery() {
         <EmptyState>No photos yet. Upload some images to build the gallery.</EmptyState>
       )}
 
+      {items.length > 0 && (
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="min-w-[220px] flex-1">
+            <TextInput
+              value={query}
+              placeholder={`Search ${items.length} gallery items by title, date or id…`}
+              onChange={(e) => {
+                setQuery(e.target.value);
+                setLimit(24);
+              }}
+            />
+          </div>
+          <span className="text-[11px] font-bold uppercase tracking-widest text-white/40">
+            {filtered.length} shown
+          </span>
+        </div>
+      )}
+
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {items.map((g, i) => (
+        {shown.map((g) => {
+          const i = items.findIndex((item) => item.id === g.id);
+          return (
           <Card key={g.id}>
             <div className={`relative aspect-video w-full overflow-hidden rounded-sm bg-gradient-to-br ${g.tint}`}>
               {g.image && (
@@ -194,8 +226,17 @@ export default function AdminGallery() {
               </div>
             </div>
           </Card>
-        ))}
+          );
+        })}
       </div>
+
+      {filtered.length > shown.length && (
+        <div className="flex justify-center">
+          <Btn onClick={() => setLimit((count) => count + 24)}>
+            Show more ({filtered.length - shown.length} left)
+          </Btn>
+        </div>
+      )}
     </div>
   );
 }

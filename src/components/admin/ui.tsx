@@ -146,9 +146,12 @@ export function ImageField({
   onChange: (url: string) => void;
   aspect?: string;
 }) {
-  const { upload } = useAdmin();
+  const { upload, importFromUrl } = useAdmin();
   const ref = useRef<HTMLInputElement>(null);
   const [busy, setBusy] = useState(false);
+  const [linkOpen, setLinkOpen] = useState(false);
+  const [link, setLink] = useState("");
+  const [importing, setImporting] = useState(false);
 
   async function pick(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -160,10 +163,38 @@ export function ImageField({
     if (ref.current) ref.current.value = "";
   }
 
+  function toggleLink() {
+    if (!linkOpen) setLink(value ?? "");
+    setLinkOpen((open) => !open);
+  }
+
+  // Copy an external image or video into our own storage.
+  async function importLink() {
+    const url = link.trim();
+    if (!url) return;
+    setImporting(true);
+    const stored = await importFromUrl(url);
+    setImporting(false);
+    if (stored) {
+      onChange(stored);
+      setLink("");
+      setLinkOpen(false);
+    }
+  }
+
+  // Point straight at the external URL without copying it.
+  function useLinkDirectly() {
+    const url = link.trim();
+    if (!url) return;
+    onChange(url);
+    setLink("");
+    setLinkOpen(false);
+  }
+
   return (
     <div>
       <Label>{label}</Label>
-      <div className="flex items-center gap-3">
+      <div className="flex items-start gap-3">
         <div
           className={`${aspect} w-20 shrink-0 overflow-hidden rounded-sm border border-white/15 bg-black/40`}
         >
@@ -176,14 +207,51 @@ export function ImageField({
             </div>
           )}
         </div>
-        <div className="flex flex-col gap-2">
-          <Btn onClick={() => ref.current?.click()} disabled={busy}>
-            {busy ? "Uploading…" : value ? "Replace" : "Upload"}
-          </Btn>
-          {value && (
-            <Btn variant="danger" onClick={() => onChange("")}>
-              Remove
+        <div className="flex min-w-0 flex-col gap-2">
+          <div className="flex flex-wrap gap-2">
+            <Btn onClick={() => ref.current?.click()} disabled={busy}>
+              {busy ? "Uploading…" : value ? "Replace" : "Upload"}
             </Btn>
+            <Btn onClick={toggleLink} disabled={busy || importing}>
+              {importing ? "Importing…" : "Import link"}
+            </Btn>
+            {value && (
+              <Btn variant="danger" onClick={() => onChange("")}>
+                Remove
+              </Btn>
+            )}
+          </div>
+          {linkOpen && (
+            <div className="flex flex-col gap-2 rounded-sm border border-white/10 bg-black/30 p-2">
+              <TextInput
+                value={link}
+                onChange={(e) => setLink(e.target.value)}
+                placeholder="https://… direct image or video link"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    void importLink();
+                  }
+                }}
+              />
+              <div className="flex flex-wrap gap-2">
+                <Btn
+                  variant="primary"
+                  onClick={() => void importLink()}
+                  disabled={importing || !link.trim()}
+                >
+                  {importing ? "Importing…" : "Copy to storage"}
+                </Btn>
+                <Btn onClick={useLinkDirectly} disabled={!link.trim()}>
+                  Use link as-is
+                </Btn>
+              </div>
+              <p className="text-[10px] text-white/40">
+                Paste a direct image or video URL (Terabox, Google Photos, Drive or any
+                host). &quot;Copy to storage&quot; saves it to our media library so the
+                link can&apos;t expire.
+              </p>
+            </div>
           )}
           <input
             ref={ref}

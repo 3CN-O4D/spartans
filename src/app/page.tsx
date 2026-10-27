@@ -8,7 +8,7 @@ import { PlayerAvatar } from "@/components/PlayerAvatar";
 import { RatingBadge } from "@/components/RatingBadge";
 import { SectionHeading } from "@/components/SectionHeading";
 import { readContent } from "@/lib/store";
-import { byKickoff, byKickoffDesc, isClubTeam } from "@/lib/format";
+import { byKickoffDesc, isClubTeam } from "@/lib/format";
 import { playerOverall } from "@/lib/ratings";
 import type { Fixture } from "@/lib/data";
 

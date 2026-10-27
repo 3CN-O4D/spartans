@@ -13,6 +13,7 @@ type Ctx = {
   toast: Toast;
   save: () => Promise<void>;
   upload: (file: File) => Promise<string | null>;
+  importFromUrl: (url: string) => Promise<string | null>;
   reload: () => Promise<void>;
   notify: (kind: "ok" | "err", msg: string) => void;
 };
@@ -189,9 +190,56 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
     [notify],
   );
 
+  // Import an external image/video (e.g. a Terabox or Google Photos direct
+  // link) into our own storage so it can be used as gallery/news media.
+  const importFromUrl = useCallback(
+    async (url: string) => {
+      const trimmed = url.trim();
+      if (!trimmed) return null;
+      try {
+        const res = await fetch("/api/import-media", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url: trimmed }),
+        });
+
+        if (res.status === 401) {
+          goToLogin();
+          return null;
+        }
+
+        const data = (await res.json().catch(() => ({}))) as {
+          url?: string;
+          error?: string;
+        };
+        if (res.ok && data.url) {
+          notify("ok", "Media imported");
+          return data.url;
+        }
+        notify("err", data.error ?? "Could not import that link");
+        return null;
+      } catch {
+        notify("err", "Could not import that link");
+        return null;
+      }
+    },
+    [notify],
+  );
+
   return (
     <AdminContext.Provider
-      value={{ content, setContent, loading, saving, toast, save, upload, reload, notify }}
+      value={{
+        content,
+        setContent,
+        loading,
+        saving,
+        toast,
+        save,
+        upload,
+        importFromUrl,
+        reload,
+        notify,
+      }}
     >
       {children}
     </AdminContext.Provider>
